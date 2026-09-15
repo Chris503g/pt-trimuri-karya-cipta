@@ -1,0 +1,1248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PT Trimuri Karya Cipta | Industrial Trading &amp; Engineering Solutions</title>
+  <meta name="description" content="PT Trimuri Karya Cipta provides general trading and engineering system integration solutions for industrial customers in Indonesia, including mechanical, electrical, IT & IoT, automation and Special Purpose Machines.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0C1116">
+  <meta property="og:title" content="PT Trimuri Karya Cipta | Industrial Trading &amp; Engineering Solutions">
+  <meta property="og:description" content="General trading, automation, system integration and Special Purpose Machine solutions for industrial customers in Indonesia.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="tkc-cover.jpg">
+  <link rel="icon" type="image/png" href="tkc-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap" rel="stylesheet">
+  <style>
+  /* ============================================================
+     PT TRIMURI KARYA CIPTA — design tokens
+     Palette reads as shop floor + machine data plate:
+     graphite body, cold technical white, safety orange as signal.
+     ============================================================ */
+  :root{
+    --ink:#0C1116;         /* graphite, shop-floor dark        */
+    --ink-2:#121A21;       /* raised dark surface              */
+    --steel:#19242E;       /* cool structural dark             */
+    --paper:#ECEEF0;       /* cold technical white             */
+    --paper-2:#F6F7F8;     /* raised light surface             */
+    --signal:#EE6512;      /* safety orange — functional only  */
+    --signal-deep:#C64F08;
+    --slate:#566673;       /* muted text on light              */
+    --fog:#93A1AC;         /* muted text on dark               */
+
+    --max:1200px;
+    --nav:76px;
+    --gutter:clamp(20px,5vw,64px);
+    --sect:clamp(72px,9vw,130px);
+    --plate:0 20px 48px rgba(6,10,14,.34);
+
+    --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --cond:"IBM Plex Sans Condensed","IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+    /* Theme channel — overridden per section so every component adapts. */
+    --fg:var(--paper);
+    --fg-dim:var(--fog);
+    --rule:rgba(255,255,255,.12);
+    --rule-soft:rgba(255,255,255,.07);
+    --field:rgba(255,255,255,.04);
+  }
+
+  /* ---------- reset ---------- */
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 16px);-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--ink);color:var(--paper);
+    font-family:var(--sans);font-size:16px;line-height:1.65;
+    font-feature-settings:"ss01","cv05";
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body.is-locked{overflow:hidden}
+  img{display:block;max-width:100%}
+  button,input,textarea,select{font:inherit;color:inherit}
+  button{cursor:pointer;background:none;border:0}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:var(--cond);font-weight:600;margin:0;text-wrap:balance}
+  p{margin:0}
+  ::selection{background:var(--signal);color:#fff}
+  :focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
+  .skip{position:absolute;left:12px;top:-60px;z-index:300;background:var(--signal);color:#fff;
+    padding:12px 18px;font-weight:600;transition:top .18s}
+  .skip:focus{top:12px}
+  .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+  /* ---------- layout primitives ---------- */
+  .wrap{width:min(var(--max),100% - (var(--gutter) * 2));margin-inline:auto}
+  .section{padding-block:var(--sect);position:relative}
+  .section--light{
+    --fg:#101820;--fg-dim:var(--slate);
+    --rule:rgba(16,24,32,.16);--rule-soft:rgba(16,24,32,.09);--field:#fff;
+    background:var(--paper);color:var(--fg);
+  }
+  .section--light-alt{background:var(--paper-2)}
+  .section--steel{background:linear-gradient(180deg,var(--steel),var(--ink))}
+  .blueprint::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(var(--rule-soft) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--rule-soft) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(120% 90% at 50% 0,#000,transparent 78%);
+            mask-image:radial-gradient(120% 90% at 50% 0,#000,transparent 78%);
+  }
+  .blueprint > *{position:relative}
+
+  /* Section header: the rule + short label encodes where you are, not decoration. */
+  .head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,4vw,64px);
+    align-items:end;padding-top:22px;border-top:2px solid var(--fg);margin-bottom:clamp(36px,5vw,64px)}
+  .head__mark{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--signal);
+    display:block;margin-bottom:14px}
+  .head h2{font-size:clamp(30px,4.4vw,54px);line-height:1.02;letter-spacing:-.015em}
+  .head p{color:var(--fg-dim);font-size:15.5px;max-width:52ch;align-self:end}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:14px 22px;font-family:var(--sans);font-weight:600;font-size:14.5px;
+    border:1px solid transparent;transition:background .2s,color .2s,border-color .2s,transform .2s}
+  .btn--solid{background:var(--signal);color:#fff}
+  .btn--solid:hover{background:var(--signal-deep)}
+  .btn--line{border-color:var(--rule);color:var(--fg)}
+  .btn--line:hover{border-color:var(--fg);background:var(--field)}
+  .btn--block{width:100%}
+  .btn:active{transform:translateY(1px)}
+
+  /* ============================ NAV ============================ */
+  .nav{position:sticky;top:0;z-index:100;height:var(--nav);
+    background:rgba(12,17,22,.82);backdrop-filter:blur(16px) saturate(1.3);
+    border-bottom:1px solid var(--rule-soft);transition:box-shadow .25s,background .25s}
+  .nav.is-stuck{background:rgba(12,17,22,.96);box-shadow:0 1px 0 rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.4)}
+  .nav__in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+  .brand img{width:42px;height:42px;object-fit:contain}
+  .brand__text{display:block;min-width:0}
+  .brand strong{display:block;font-family:var(--cond);font-size:16px;font-weight:600;letter-spacing:.01em;line-height:1.1}
+  .brand__sub{display:block;font-family:var(--mono);font-size:10px;color:var(--fog);letter-spacing:.02em;margin-top:3px}
+  .links{display:flex;align-items:center;gap:4px}
+  .links a{position:relative;padding:10px 13px;font-size:14px;font-weight:450;color:#C2CCD4;transition:color .2s}
+  .links a::after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:2px;
+    background:var(--signal);transform:scaleX(0);transform-origin:left;transition:transform .22s}
+  .links a:hover{color:#fff}
+  .links a[aria-current="true"]{color:#fff}
+  .links a[aria-current="true"]::after{transform:scaleX(1)}
+  .nav__end{display:flex;align-items:center;gap:10px}
+  .nav__cta{padding:11px 18px;font-size:14px}
+  .burger{display:none;width:44px;height:44px;border:1px solid var(--rule);
+    place-items:center;color:#fff}
+  .burger span{display:block;width:17px;height:1.5px;background:currentColor;position:relative;transition:transform .22s,background .1s}
+  .burger span::before,.burger span::after{content:"";position:absolute;left:0;width:17px;height:1.5px;background:currentColor;transition:transform .22s,top .22s}
+  .burger span::before{top:-5.5px}.burger span::after{top:5.5px}
+  .burger[aria-expanded="true"] span{background:transparent}
+  .burger[aria-expanded="true"] span::before{top:0;transform:rotate(45deg)}
+  .burger[aria-expanded="true"] span::after{top:0;transform:rotate(-45deg)}
+
+  /* ============================ HERO ============================ */
+  .hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
+    align-items:stretch;border-bottom:1px solid var(--rule)}
+  .hero__copy{display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(56px,8vw,104px) clamp(28px,4vw,56px) clamp(56px,8vw,104px) max(var(--gutter),calc((100vw - var(--max)) / 2));
+    position:relative;overflow:hidden}
+  .hero__copy::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.6;
+    background-image:linear-gradient(var(--rule-soft) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--rule-soft) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:linear-gradient(100deg,#000,transparent 72%);
+            mask-image:linear-gradient(100deg,#000,transparent 72%)}
+  .hero__copy > *{position:relative}
+  .hero__est{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.04em;
+    display:flex;align-items:center;gap:12px;margin-bottom:26px}
+  .hero__est::after{content:"";height:1px;flex:1;background:var(--rule);max-width:120px}
+  .hero h1{font-size:clamp(40px,5.8vw,80px);line-height:1;letter-spacing:-.02em;margin-bottom:24px;max-width:15ch}
+  .hero__lead{color:#B4C0C9;font-size:clamp(16px,1.5vw,18px);max-width:54ch;margin-bottom:34px}
+  .hero__actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:44px}
+  .hero__scope{list-style:none;margin:0;padding:0;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--rule)}
+  .hero__scope li{padding:18px 20px 0 0;font-family:var(--cond);font-size:19px;
+    font-weight:600;line-height:1.25;display:flex;align-items:baseline;gap:9px}
+  .hero__scope li::before{content:"";width:7px;height:7px;background:var(--signal);flex-shrink:0}
+
+  .hero__media{position:relative;min-height:clamp(420px,62vh,720px);background:var(--ink-2);overflow:hidden}
+  .hero__media img{width:100%;height:100%;object-fit:cover;filter:saturate(.62) contrast(1.06) brightness(.88)}
+  .hero__media::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(90deg,var(--ink) 0%,rgba(12,17,22,.35) 22%,rgba(12,17,22,0) 58%),
+               linear-gradient(0deg,rgba(12,17,22,.82) 2%,transparent 46%)}
+
+  /* Machine data plate — the one deliberately bold object on the page. */
+  .plate{position:absolute;right:clamp(16px,3vw,36px);bottom:clamp(16px,3vw,36px);z-index:3;
+    width:min(370px,calc(100% - 32px));background:rgba(10,14,19,.9);backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.22);box-shadow:var(--plate)}
+  .plate::before,.plate::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;
+    background:rgba(255,255,255,.3);box-shadow:0 0 0 1px rgba(0,0,0,.4) inset}
+  .plate::before{left:9px;top:9px}
+  .plate::after{right:9px;top:9px}
+  .plate__top{padding:16px 20px 13px;border-bottom:1px solid rgba(255,255,255,.16);text-align:center}
+  .plate__top em{font-family:var(--mono);font-style:normal;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--signal);display:block;margin-bottom:6px}
+  .plate__top strong{font-family:var(--cond);font-size:26px;font-weight:700;letter-spacing:-.01em;display:block;line-height:1.1}
+  .plate dl{margin:0;padding:12px 20px 16px;display:grid;gap:7px;font-family:var(--mono);font-size:11.5px}
+  .plate dl > div{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .plate dt{color:#7C8B96;letter-spacing:.06em}
+  .plate dd{margin:0;color:#DFE5EA;text-align:right}
+
+  /* ============================ ABOUT ============================ */
+  .about{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,5vw,72px);align-items:center}
+  .about__media{position:relative;aspect-ratio:16/9;overflow:hidden}
+  .about__media img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.72)}
+  .about__media::after{content:"";position:absolute;left:-14px;bottom:-14px;width:46%;height:46%;
+    border-left:2px solid var(--signal);border-bottom:2px solid var(--signal);pointer-events:none}
+  .about h2{font-size:clamp(30px,4.4vw,52px);line-height:1.03;letter-spacing:-.015em;margin-bottom:20px}
+  .about__body{color:var(--fg-dim);max-width:62ch;font-size:16.5px}
+  .about__stamp{font-family:var(--mono);font-size:12px;color:var(--signal);margin-bottom:14px}
+  .values{margin:34px 0 0;padding:0;list-style:none;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule)}
+  .values li{background:var(--paper-2);padding:18px 20px}
+  .values b{display:block;font-family:var(--mono);font-size:11px;color:var(--signal);
+    letter-spacing:.06em;margin-bottom:7px}
+  .values span{font-family:var(--cond);font-size:17px;font-weight:600;line-height:1.3}
+
+  /* ============================ BUSINESS ============================ */
+  .divisions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:14px}
+  .division{position:relative;min-height:clamp(420px,52vw,540px);overflow:hidden;
+    border:1px solid var(--rule);background:var(--ink-2);isolation:isolate}
+  .division img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:.46;filter:saturate(.6);transition:transform .7s cubic-bezier(.2,.7,.3,1),opacity .5s}
+  .division::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(0deg,var(--ink) 6%,rgba(12,17,22,.76) 46%,rgba(12,17,22,.1) 100%)}
+  .division:hover img,.division:focus-within img{transform:scale(1.04);opacity:.6}
+  .division__body{position:absolute;inset:auto 0 0;z-index:2;padding:clamp(22px,3vw,34px)}
+  .division__tag{font-family:var(--mono);font-size:11.5px;color:var(--signal);letter-spacing:.05em;
+    display:inline-block;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--rule);width:100%}
+  .division h3{font-size:clamp(24px,3vw,36px);line-height:1.05;letter-spacing:-.015em;margin-bottom:12px}
+  .division p{color:#B6C1C9;font-size:15px;max-width:46ch;margin-bottom:20px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+  .tags li{font-family:var(--mono);font-size:11px;padding:6px 10px;color:#DCE3E8;
+    border:1px solid var(--rule);background:rgba(255,255,255,.04)}
+
+  /* ============================ CAPABILITIES (catalogue index) ============================ */
+  .index{border-top:1px solid var(--fg)}
+  .index__row{display:grid;grid-template-columns:96px minmax(0,1.05fr) minmax(0,1.5fr);
+    gap:clamp(16px,3vw,40px);align-items:baseline;padding:26px 14px 26px 0;
+    border-bottom:1px solid var(--rule-soft);transition:background .2s,padding .2s}
+  .index__row:hover{background:var(--paper-2);padding-left:14px}
+  .index__code{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.06em}
+  .index__row h3{font-size:clamp(20px,2.4vw,26px);letter-spacing:-.01em;line-height:1.15}
+  .index__row p{color:var(--fg-dim);font-size:15.5px}
+
+  /* ============================ BRANDS ============================ */
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:22px}
+  .chip{border:1px solid var(--rule);padding:9px 16px;font-size:13.5px;font-weight:500;
+    color:var(--fg-dim);transition:.18s}
+  .chip:hover{border-color:var(--fg);color:var(--fg)}
+  .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--paper)}
+  .search{margin-left:auto;position:relative;flex:1 1 230px;max-width:300px}
+  .search input{width:100%;background:var(--field);border:1px solid var(--rule);
+    padding:11px 14px 11px 38px;outline:none;transition:border-color .2s}
+  .search input:focus{border-color:var(--signal)}
+  .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);
+    width:15px;height:15px;stroke:var(--fg-dim);fill:none;stroke-width:2;pointer-events:none}
+  .brands{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:1px;
+    background:var(--rule);border:1px solid var(--rule)}
+  .brand-tile{background:var(--paper-2);padding:18px;min-height:112px;
+    display:flex;flex-direction:column;justify-content:space-between;transition:background .2s}
+  .brand-tile:hover{background:#fff}
+  .brand-tile strong{font-family:var(--cond);font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .brand-tile small{font-family:var(--mono);font-size:10.5px;color:var(--fg-dim);margin-top:auto;padding-top:12px}
+  .brand-tile[hidden]{display:none}
+  .result-note{font-family:var(--mono);font-size:12.5px;color:var(--fg-dim);margin-top:16px}
+  .empty{display:none;padding:44px 20px;text-align:center;border:1px dashed var(--rule);margin-top:1px}
+  .empty.is-on{display:block}
+  .empty strong{display:block;font-family:var(--cond);font-size:20px;margin-bottom:6px}
+  .empty p{color:var(--fg-dim);font-size:14.5px}
+
+  /* ============================ WHY ============================ */
+  .why{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(32px,5vw,72px)}
+  .why h2{font-size:clamp(30px,4.2vw,50px);line-height:1.03;letter-spacing:-.015em;margin-bottom:16px}
+  .why__intro p{color:var(--fg-dim);font-size:16px;max-width:42ch}
+  .why__list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--rule)}
+  .why__list article{background:var(--ink);padding:26px 24px}
+  .why__list h3{font-size:19px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .why__list h3::before{content:"";width:8px;height:8px;background:var(--signal);flex-shrink:0}
+  .why__list p{color:var(--fg-dim);font-size:14.5px}
+
+  /* ============================ CUSTOMERS ============================ */
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+  .tab{padding:10px 18px;font-size:14px;font-weight:500;color:var(--fg-dim);
+    border-bottom:2px solid transparent;transition:.18s}
+  .tab:hover{color:var(--fg)}
+  .tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--signal)}
+  .customers{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:1px;
+    background:var(--rule);border:1px solid var(--rule)}
+  .customer{background:var(--paper-2);min-height:112px;padding:18px;display:flex;
+    flex-direction:column;justify-content:space-between;transition:background .2s}
+  .customer:hover{background:#fff}
+  .customer strong{font-family:var(--cond);font-size:19px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+  .customer small{font-family:var(--mono);font-size:10.5px;color:var(--fg-dim);margin-top:auto;padding-top:12px}
+  [role="tabpanel"][hidden]{display:none}
+
+  /* ============================ PROJECTS ============================ */
+  .feature{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+    border:1px solid var(--rule);background:var(--ink-2);overflow:hidden;margin-bottom:14px}
+  .feature__img{position:relative;min-height:clamp(280px,42vw,520px);overflow:hidden}
+  .feature__img img{width:100%;height:100%;object-fit:cover;filter:saturate(.66);
+    transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+  .feature:hover .feature__img img{transform:scale(1.03)}
+  .feature__body{padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;justify-content:center}
+  .feature__tag{font-family:var(--mono);font-size:11.5px;color:var(--signal);margin-bottom:14px}
+  .feature h3{font-size:clamp(26px,3.4vw,44px);line-height:1.02;letter-spacing:-.02em;margin-bottom:14px}
+  .feature p{color:var(--fg-dim);font-size:15.5px;max-width:44ch;margin-bottom:22px}
+  .feature .tags{margin-bottom:26px}
+  .feature .btn{align-self:start}
+  .projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .project{position:relative;text-align:left;width:100%;background:var(--ink-2);
+    border:1px solid var(--rule-soft);overflow:hidden;transition:border-color .2s,transform .2s}
+  .project:hover{border-color:var(--rule);transform:translateY(-3px)}
+  .project__img{display:block;aspect-ratio:4/3;overflow:hidden;position:relative}
+  .project__img img{width:100%;height:100%;object-fit:cover;filter:saturate(.62);
+    transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+  .project:hover .project__img img{transform:scale(1.05)}
+  .project__body{padding:18px 20px 20px}
+  .project__body{display:block}
+  .project__title{display:block;font-family:var(--cond);font-size:19px;font-weight:600;
+    letter-spacing:-.01em;margin-bottom:4px;line-height:1.2;color:var(--paper)}
+  .project__meta{display:block;font-family:var(--mono);font-size:11.5px;color:var(--fog)}
+
+  /* ============================ CSR ============================ */
+  .csr{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(30px,5vw,64px);align-items:center}
+  .csr > div:first-child{position:relative;aspect-ratio:16/9;overflow:hidden}
+  .csr img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.72)}
+  .csr h2{font-size:clamp(28px,4vw,48px);line-height:1.03;letter-spacing:-.015em;margin-bottom:16px}
+  .csr p{color:var(--fg-dim);font-size:16px;max-width:52ch}
+  .csr__note{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:12px;
+    padding:9px 14px;border:1px solid var(--rule);color:var(--fg)}
+
+  /* ============================ CONTACT ============================ */
+  .contact{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(34px,5vw,72px)}
+  .contact h2{font-size:clamp(32px,4.8vw,60px);line-height:1;letter-spacing:-.025em;margin-bottom:18px}
+  .contact__intro > p{color:var(--fg-dim);font-size:16.5px;max-width:46ch}
+  .details{margin:32px 0 0;display:grid}
+  .details > div{display:flex;justify-content:space-between;gap:24px;padding:16px 0;
+    border-top:1px solid var(--rule)}
+  .details dt{font-family:var(--mono);font-size:11.5px;color:var(--fg-dim);flex-shrink:0}
+  .details dd{margin:0;font-size:14.5px;text-align:right;max-width:34ch}
+  .details a:hover{color:var(--signal)}
+
+  .form{background:var(--paper);color:#101820;padding:clamp(24px,3.5vw,40px);box-shadow:var(--plate)}
+  .form h3{font-size:24px;letter-spacing:-.01em;margin-bottom:4px}
+  .form__note{font-family:var(--mono);font-size:11.5px;color:var(--slate);margin-bottom:24px}
+  .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .field{display:grid;gap:7px}
+  .field--full{grid-column:1/-1}
+  .field label{font-family:var(--mono);font-size:11.5px;color:var(--slate);letter-spacing:.03em}
+  .field input,.field textarea,.field select{
+    width:100%;background:#fff;border:1px solid rgba(16,24,32,.18);padding:12px 14px;
+    outline:none;transition:border-color .18s,box-shadow .18s;border-radius:0}
+  .field textarea{min-height:124px;resize:vertical}
+  .field input:focus,.field textarea:focus,.field select:focus{
+    border-color:var(--signal);box-shadow:0 0 0 3px rgba(238,101,18,.15)}
+  .field [aria-invalid="true"]{border-color:#C0392B;background:#FEF7F6}
+  .field .err{font-family:var(--mono);font-size:11px;color:#B03528;min-height:0}
+  .form .btn{margin-top:22px}
+  .form__foot{font-family:var(--mono);font-size:11px;color:var(--slate);margin-top:14px;text-align:center}
+
+  /* ============================ FOOTER ============================ */
+  footer{background:#070B0E;border-top:1px solid var(--rule);padding:clamp(44px,6vw,64px) 0 28px}
+  .foot{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(auto-fit,minmax(140px,1fr));
+    gap:clamp(28px,4vw,48px)}
+  .foot__brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+  .foot__brand img{width:40px;height:40px;object-fit:contain}
+  .foot__brand strong{font-family:var(--cond);font-size:15px;font-weight:600;display:block;line-height:1.2}
+  .foot__brand .brand__sub{font-family:var(--mono);font-size:9.5px;color:#6C7983;display:block;margin-top:3px}
+  .foot > div > p{color:#8A97A1;font-size:14px;max-width:38ch}
+  .foot h4{font-family:var(--mono);font-size:11.5px;font-weight:500;color:#6C7983;
+    letter-spacing:.05em;margin-bottom:14px}
+  .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+  .foot a{color:#9AA7B1;font-size:14px;transition:color .18s}
+  .foot a:hover{color:#fff}
+  .foot__bottom{margin-top:clamp(36px,5vw,56px);padding-top:20px;border-top:1px solid var(--rule-soft);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
+    font-family:var(--mono);font-size:11.5px;color:#66727B}
+
+  /* ============================ WHATSAPP ============================ */
+  .wa{position:fixed;right:20px;bottom:20px;z-index:120;display:flex;align-items:center;gap:10px}
+  .wa__label{background:var(--ink-2);border:1px solid var(--rule);padding:9px 14px;font-size:13px;
+    font-weight:500;color:#fff;box-shadow:var(--plate);opacity:0;transform:translateX(8px);
+    pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap}
+  .wa:hover .wa__label,.wa:focus-within .wa__label{opacity:1;transform:none}
+  .wa__btn{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+    background:#1EAD5A;color:#fff;box-shadow:0 12px 30px rgba(30,173,90,.32);transition:transform .2s,background .2s}
+  .wa__btn:hover{background:#17914A;transform:translateY(-2px)}
+  .wa__btn svg{width:26px;height:26px;fill:currentColor}
+
+  /* ============================ MODAL ============================ */
+  .modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+    padding:clamp(12px,3vw,32px);background:rgba(6,9,12,.8);backdrop-filter:blur(8px)}
+  .modal.is-open{display:flex}
+  .modal__box{width:min(940px,100%);max-height:90vh;overflow:auto;background:var(--ink-2);
+    border:1px solid var(--rule);box-shadow:var(--plate);position:relative;
+    animation:plate-in .28s cubic-bezier(.2,.7,.3,1)}
+  @keyframes plate-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .modal__close{position:absolute;right:14px;top:14px;z-index:2;width:40px;height:40px;
+    display:grid;place-items:center;background:rgba(6,9,12,.7);border:1px solid var(--rule);
+    color:#fff;font-size:20px;line-height:1;transition:background .2s}
+  .modal__close:hover{background:var(--signal);border-color:var(--signal)}
+  .modal__img{aspect-ratio:16/9;overflow:hidden;background:var(--steel)}
+  .modal__img img{width:100%;height:100%;object-fit:cover;filter:saturate(.68)}
+  .modal__body{padding:clamp(22px,3vw,34px)}
+  .modal__body .feature__tag{margin-bottom:10px}
+  .modal__body h3{font-size:clamp(24px,3.4vw,38px);line-height:1.04;letter-spacing:-.02em;margin-bottom:10px}
+  .modal__body > p{color:var(--fg-dim);font-size:15.5px;max-width:58ch;margin-bottom:18px}
+
+  /* ---------- graceful state when an image file is absent ---------- */
+  .img-missing{position:relative;background:
+    repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),var(--steel)}
+  .img-missing img{opacity:0 !important}
+  .img-missing::before{content:attr(data-missing);position:absolute;inset:0;z-index:1;
+    display:grid;place-content:center;text-align:center;padding:16px;
+    font-family:var(--mono);font-size:11px;color:#7B8792;letter-spacing:.04em}
+  .section--light .img-missing{background:
+    repeating-linear-gradient(135deg,rgba(16,24,32,.06) 0 10px,transparent 10px 20px),#DFE3E6}
+
+  /* ---------- entrance: one restrained reveal, not a per-card effect ---------- */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.is-in{opacity:1;transform:none}
+
+  /* ============================ RESPONSIVE ============================ */
+  @media (max-width:1040px){
+    .hero{grid-template-columns:1fr}
+    .hero__copy{padding-inline:var(--gutter)}
+    .hero__media{min-height:clamp(340px,48vh,520px)}
+    .about,.why,.csr,.contact,.feature{grid-template-columns:1fr}
+    .feature__img{min-height:300px}
+    .head{grid-template-columns:1fr;align-items:start;gap:16px}
+    .head p{max-width:64ch}
+    .index__row{grid-template-columns:78px minmax(0,1fr);row-gap:8px}
+    .index__row p{grid-column:2}
+    .links{gap:0}
+    .links a{padding-inline:10px;font-size:13.5px}
+  }
+  @media (max-width:860px){
+    .links{position:fixed;left:0;right:0;top:var(--nav);flex-direction:column;align-items:stretch;
+      gap:0;padding:8px var(--gutter) 20px;background:rgba(12,17,22,.98);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--rule);transform:translateY(-8px);opacity:0;pointer-events:none;
+      transition:opacity .2s,transform .2s;max-height:calc(100dvh - var(--nav));overflow:auto}
+    .links.is-open{opacity:1;transform:none;pointer-events:auto}
+    .links a{padding:15px 4px;font-size:17px;border-bottom:1px solid var(--rule-soft);font-family:var(--cond);font-weight:600}
+    .links a::after{display:none}
+    .links a[aria-current="true"]{color:var(--signal)}
+    .nav__cta{display:none}
+    .burger{display:grid}
+    .brand__sub{display:none}
+    .details > div{flex-direction:column;gap:6px}
+    .details dd{text-align:left}
+    .search{margin-left:0;max-width:none;flex-basis:100%;order:9}
+  }
+  @media (max-width:520px){
+    :root{--nav:66px}
+    .hero h1{font-size:clamp(34px,10vw,46px)}
+    .plate{right:12px;left:12px;bottom:12px;width:auto}
+    .brands{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+    .customers{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+    .projects{grid-template-columns:1fr}
+    .wa{right:14px;bottom:14px}
+    .wa__label{display:none}
+    .brand strong{font-size:14px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+      transition-duration:.01ms !important}
+    .reveal{opacity:1;transform:none}
+  }
+  @media print{
+    .nav,.wa,.modal,.toolbar,.tabs{display:none !important}
+    body{background:#fff;color:#000}
+    .section{padding-block:24px;background:#fff !important;color:#000 !important}
+  }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#home" aria-label="PT Trimuri Karya Cipta — home">
+      <img src="tkc-logo.png" alt="" width="42" height="42">
+      <span class="brand__text">
+        <strong>PT Trimuri Karya Cipta</strong>
+        <span class="brand__sub">General trading / engineering system integrator</span>
+      </span>
+    </a>
+
+    <nav class="links" id="navLinks" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#business">Business</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#brands">Brands</a>
+      <a href="#customers">Customers</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav__end">
+      <a class="btn btn--solid nav__cta" href="#contact">Send an inquiry</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="home">
+    <div class="hero__copy">
+      <p class="hero__est">Established 2006 / Cileungsi — Bogor</p>
+      <h1>Industrial products, automation and Special Purpose Machines.</h1>
+      <p class="hero__lead">We support customers in Indonesia with procurement of mechanical, electrical, IT and stationery products, plus automation systems and mechatronic design & build for Special Purpose Machines.</p>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="#capabilities">See what we supply</a>
+        <a class="btn btn--line" href="#projects">Browse projects</a>
+      </div>
+      <ul class="hero__scope">
+        <li>General trading</li>
+        <li>Automation &amp; integration</li>
+        <li>Special Purpose Machines</li>
+      </ul>
+    </div>
+
+    <div class="hero__media" data-missing="project-1.png">
+      <img src="project-1.png" alt="Special Purpose Machine built by PT Trimuri Karya Cipta" width="1200" height="900" fetchpriority="high">
+      <div class="plate">
+        <div class="plate__top">
+          <em>Featured build</em>
+          <strong>TIG Body Machine</strong>
+        </div>
+        <dl>
+          <div><dt>CLIENT</dt><dd>PT Yutaka Manufacturing</dd></div>
+          <div><dt>SCOPE</dt><dd>Mechatronic design &amp; build</dd></div>
+          <div><dt>TYPE</dt><dd>Special Purpose Machine</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light" id="about">
+    <div class="wrap about">
+      <div class="about__media reveal" data-missing="tkc-cover.jpg">
+        <img src="tkc-cover.jpg" alt="PT Trimuri Karya Cipta facility" loading="lazy" width="1000" height="563">
+      </div>
+      <div class="about__copy reveal">
+        <p class="about__stamp">Company / since 18 October 2006</p>
+        <h2>General trading and engineering since 2006.</h2>
+        <p class="about__body">PT Trimuri Karya Cipta is a local Indonesian company supporting customers with procurement of mechanical, electrical, IT and stationery products. Alongside general trading, our engineering team builds automation systems and handles mechatronic design and build for Special Purpose Machines.</p>
+        <ul class="values">
+          <li><b>Quality</b><span>Products and service we can stand behind.</span></li>
+          <li><b>Relationships</b><span>Partnerships that outlast a single order.</span></li>
+          <li><b>Integrity</b><span>Straight answers on scope, price and timing.</span></li>
+          <li><b>Satisfaction</b><span>Measured by whether the line keeps moving.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section blueprint" id="business">
+    <div class="wrap">
+      <div class="head reveal">
+        <div>
+          <span class="head__mark">What we do</span>
+          <h2>Two divisions. One company.</h2>
+        </div>
+        <p>General trading for industrial products, and engineering support for automation systems and Special Purpose Machines.</p>
+      </div>
+      <div class="divisions">
+        <article class="division reveal" data-missing="project-4.png">
+          <img src="project-4.png" alt="Industrial components and supply" loading="lazy" width="900" height="700">
+          <div class="division__body">
+            <span class="division__tag">Division A / General trading</span>
+            <h3>Industrial supply, made practical.</h3>
+            <p>Procurement support across mechanical, electrical, IT and IoT, stationery, safety and related industrial supplies.</p>
+            <ul class="tags"><li>Mechanical</li><li>Electrical</li><li>IT &amp; IoT</li><li>Safety</li><li>Stationery</li></ul>
+          </div>
+        </article>
+        <article class="division reveal" data-missing="project-3.png">
+          <img src="project-3.png" alt="Special Purpose Machine under construction" loading="lazy" width="900" height="700">
+          <div class="division__body">
+            <span class="division__tag">Division B / Engineering &amp; system integration</span>
+            <h3>Machines built around the process.</h3>
+            <p>Automation and system integration backed by mechatronic design and build experience for Special Purpose Machines.</p>
+            <ul class="tags"><li>Automation</li><li>System integration</li><li>Mechatronic</li><li>SPM</li><li>Design &amp; build</li></ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light section--light-alt" id="capabilities">
+    <div class="wrap">
+      <div class="head reveal">
+        <div>
+          <span class="head__mark">Capabilities</span>
+          <h2>From single components to complete installations.</h2>
+        </div>
+        <p>The product groups and engineering disciplines we cover for day-to-day operations and custom projects.</p>
+      </div>
+      <div class="index reveal">
+        <div class="index__row">
+          <span class="index__code">MECH</span>
+          <h3>Mechanical</h3>
+          <p>Bearings, linear motion, power transmission, pneumatic and fluid control, hose, tools and mechanical components.</p>
+        </div>
+        <div class="index__row">
+          <span class="index__code">ELEC</span>
+          <h3>Electrical &amp; automation</h3>
+          <p>Automation, PLC, sensors, control components, electrical panels, measurement and industrial accessories.</p>
+        </div>
+        <div class="index__row">
+          <span class="index__code">IT-IOT</span>
+          <h3>IT &amp; IoT</h3>
+          <p>Computing, networking, storage, software, peripherals, imaging and technology support.</p>
+        </div>
+        <div class="index__row">
+          <span class="index__code">SPM</span>
+          <h3>Special Purpose Machines</h3>
+          <p>Mechatronic design and build for application-specific machine solutions.</p>
+        </div>
+        <div class="index__row">
+          <span class="index__code">SI</span>
+          <h3>System integration</h3>
+          <p>Engineering support for automation systems and integrated production solutions.</p>
+        </div>
+        <div class="index__row">
+          <span class="index__code">SAFE</span>
+          <h3>Safety &amp; furniture</h3>
+          <p>Safety gear plus indoor and outdoor furniture solutions for industrial and workplace needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light" id="brands">
+    <div class="wrap">
+      <div class="head reveal">
+        <div>
+          <span class="head__mark">Trading portfolio</span>
+          <h2>Brands we supply.</h2>
+        </div>
+        <p>Filter by product area or search for a brand to check whether it sits inside our sourcing network.</p>
+      </div>
+
+      <div class="toolbar reveal" id="brandFilters" role="group" aria-label="Filter brands by category">
+        <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="chip" type="button" data-filter="mechanical" aria-pressed="false">Mechanical</button>
+        <button class="chip" type="button" data-filter="electrical" aria-pressed="false">Electrical</button>
+        <button class="chip" type="button" data-filter="it" aria-pressed="false">IT &amp; IoT</button>
+        <button class="chip" type="button" data-filter="safety" aria-pressed="false">Safety</button>
+        <div class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="brandSearch" type="search" placeholder="Search brand" aria-label="Search brands" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="brands reveal" id="brandGrid">
+        <div class="brand-tile" data-cat="mechanical" data-name="NTN"><strong>NTN</strong><small>Bearings</small></div>
+        <div class="brand-tile" data-cat="mechanical" data-name="THK"><strong>THK</strong><small>Linear motion</small></div>
+        <div class="brand-tile" data-cat="mechanical" data-name="SKF"><strong>SKF</strong><small>Bearings</small></div>
+        <div class="brand-tile" data-cat="mechanical" data-name="IKO"><strong>IKO</strong><small>Linear motion</small></div>
+        <div class="brand-tile" data-cat="mechanical" data-name="Tsubaki"><strong>Tsubaki</strong><small>Power transmission</small></div>
+        <div class="brand-tile" data-cat="mechanical" data-name="Bando"><strong>Bando</strong><small>Power transmission</small></div>
+        <div class="brand-tile" data-cat="mechanical" data-name="Festo"><strong>Festo</strong><small>Pneumatic</small></div>
+        <div class="brand-tile" data-cat="mechanical" data-name="SMC"><strong>SMC</strong><small>Pneumatic</small></div>
+        <div class="brand-tile" data-cat="electrical" data-name="Omron"><strong>Omron</strong><small>Automation</small></div>
+        <div class="brand-tile" data-cat="electrical" data-name="Mitsubishi"><strong>Mitsubishi</strong><small>Automation</small></div>
+        <div class="brand-tile" data-cat="electrical" data-name="Siemens"><strong>Siemens</strong><small>Automation</small></div>
+        <div class="brand-tile" data-cat="electrical" data-name="Yaskawa"><strong>Yaskawa</strong><small>Servo &amp; drives</small></div>
+        <div class="brand-tile" data-cat="electrical" data-name="SICK"><strong>SICK</strong><small>Sensors</small></div>
+        <div class="brand-tile" data-cat="electrical" data-name="Fuji Electric"><strong>Fuji</strong><small>Electrical</small></div>
+        <div class="brand-tile" data-cat="electrical" data-name="Fluke"><strong>Fluke</strong><small>Measurement</small></div>
+        <div class="brand-tile" data-cat="it" data-name="HP"><strong>HP</strong><small>Computing</small></div>
+        <div class="brand-tile" data-cat="it" data-name="Dell"><strong>Dell</strong><small>Computing</small></div>
+        <div class="brand-tile" data-cat="it" data-name="Lenovo"><strong>Lenovo</strong><small>Computing</small></div>
+        <div class="brand-tile" data-cat="it" data-name="Canon"><strong>Canon</strong><small>Imaging</small></div>
+        <div class="brand-tile" data-cat="it" data-name="Microsoft"><strong>Microsoft</strong><small>Software</small></div>
+        <div class="brand-tile" data-cat="safety" data-name="3M"><strong>3M</strong><small>Safety</small></div>
+        <div class="brand-tile" data-cat="safety" data-name="Krisbow"><strong>Krisbow</strong><small>Safety &amp; tools</small></div>
+        <div class="brand-tile" data-cat="safety" data-name="Kent"><strong>Kent</strong><small>Safety</small></div>
+        <div class="brand-tile" data-cat="safety" data-name="Gosave"><strong>Gosave</strong><small>Safety</small></div>
+      </div>
+
+      <div class="empty" id="brandEmpty">
+        <strong>No brand matches that search.</strong>
+        <p>Try a shorter spelling, or ask us directly — we source outside this list too.</p>
+      </div>
+      <p class="result-note" id="brandCount" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="section section--steel" id="why">
+    <div class="wrap why">
+      <div class="why__intro reveal">
+        <span class="head__mark">Why work with us</span>
+        <h2>What we bring.</h2>
+        <p>Our approach follows four priorities: quality products and services, strong relationships, integrity and customer satisfaction.</p>
+      </div>
+      <div class="why__list reveal">
+        <article><h3>Integrated capability</h3><p>General trading and engineering system integration inside one organisation.</p></article>
+        <article><h3>Industrial focus</h3><p>Industrial products and engineering support for customer requirements.</p></article>
+        <article><h3>Custom engineering</h3><p>Mechatronic design and build experience for Special Purpose Machines.</p></article>
+        <article><h3>Long-term relationships</h3><p>A focus on quality, integrity and customer satisfaction.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light" id="customers">
+    <div class="wrap">
+      <div class="head reveal">
+        <div>
+          <span class="head__mark">Customer portfolio</span>
+          <h2>Who we supply.</h2>
+        </div>
+        <p>Customer names are shown as a portfolio overview. Approved logo assets can be substituted before public launch.</p>
+      </div>
+
+      <div class="tabs reveal" role="tablist" aria-label="Customer sectors">
+        <button class="tab" type="button" role="tab" id="tab-astra" aria-controls="panel-astra" aria-selected="true">Astra Group</button>
+        <button class="tab" type="button" role="tab" id="tab-non-astra" aria-controls="panel-non-astra" aria-selected="false" tabindex="-1">Non-Astra</button>
+        <button class="tab" type="button" role="tab" id="tab-food" aria-controls="panel-food" aria-selected="false" tabindex="-1">Food &amp; beverage</button>
+      </div>
+
+      <div class="reveal">
+        <div role="tabpanel" id="panel-astra" aria-labelledby="tab-astra" tabindex="0">
+          <div class="customers">
+            <div class="customer"><strong>Denso</strong><small>Astra Group</small></div>
+            <div class="customer"><strong>Astemo</strong><small>Astra Group</small></div>
+            <div class="customer"><strong>YMI</strong><small>Astra Group</small></div>
+            <div class="customer"><strong>KYB</strong><small>Astra Group</small></div>
+            <div class="customer"><strong>IGP</strong><small>Astra Group</small></div>
+            <div class="customer"><strong>AHM</strong><small>Astra Group</small></div>
+            <div class="customer"><strong>Akebono</strong><small>Astra Group</small></div>
+            <div class="customer"><strong>UD Trucks</strong><small>Astra Group</small></div>
+          </div>
+        </div>
+        <div role="tabpanel" id="panel-non-astra" aria-labelledby="tab-non-astra" tabindex="0" hidden>
+          <div class="customers">
+            <div class="customer"><strong>Panasonic</strong><small>Manufacturing</small></div>
+            <div class="customer"><strong>Cataler</strong><small>Manufacturing</small></div>
+            <div class="customer"><strong>Toyota Tsusho</strong><small>Trading</small></div>
+            <div class="customer"><strong>Autotech</strong><small>Automotive</small></div>
+            <div class="customer"><strong>Hamabo Indonesia</strong><small>Manufacturing</small></div>
+            <div class="customer"><strong>Yuasa</strong><small>Battery</small></div>
+            <div class="customer"><strong>Nihon Denkei</strong><small>Instrumentation</small></div>
+            <div class="customer"><strong>SANY</strong><small>Heavy equipment</small></div>
+          </div>
+        </div>
+        <div role="tabpanel" id="panel-food" aria-labelledby="tab-food" tabindex="0" hidden>
+          <div class="customers">
+            <div class="customer"><strong>Ajinomoto</strong><small>Food &amp; beverage</small></div>
+            <div class="customer"><strong>Otsuka Distribution</strong><small>Food &amp; beverage</small></div>
+            <div class="customer"><strong>Indolakto</strong><small>Food &amp; beverage</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section blueprint" id="projects">
+    <div class="wrap">
+      <div class="head reveal">
+        <div>
+          <span class="head__mark">Engineering projects</span>
+          <h2>Machines built to solve a specific production problem.</h2>
+        </div>
+        <p>Selected Special Purpose Machine and automation work from the system integrator division. Open any project for detail.</p>
+      </div>
+
+      <article class="feature reveal">
+        <div class="feature__img" data-missing="project-2.png">
+          <img src="project-2.png" alt="TIG Body Machine" loading="lazy" width="1100" height="800">
+        </div>
+        <div class="feature__body">
+          <span class="feature__tag">Featured project</span>
+          <h3>TIG Body Machine</h3>
+          <p>A Special Purpose Machine for PT Yutaka Manufacturing Indonesia, covering mechatronic design, automation and machine build.</p>
+          <ul class="tags"><li>Mechatronic</li><li>Automation</li><li>SPM</li></ul>
+          <button class="btn btn--solid" type="button" data-project="0">View project detail</button>
+        </div>
+      </article>
+
+      <div class="projects" id="projectGrid"></div>
+    </div>
+  </section>
+
+  <section class="section section--light" id="csr">
+    <div class="wrap csr">
+      <div class="reveal" data-missing="tkc-csr.jpg">
+        <img src="tkc-csr.jpg" alt="PT Trimuri Karya Cipta community activity" loading="lazy" width="1000" height="563">
+      </div>
+      <div class="reveal">
+        <span class="head__mark">Community</span>
+        <h2>Community support.</h2>
+        <p>PT Trimuri Karya Cipta includes community support activities with Griya Yatim &amp; Dhuafa.</p>
+        <span class="csr__note">Partner / Griya Yatim &amp; Dhuafa</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--steel" id="contact">
+    <div class="wrap contact">
+      <div class="contact__intro reveal">
+        <span class="head__mark">Get in touch</span>
+        <h2>Tell us what you need.</h2>
+        <p>For product procurement, automation support or a Special Purpose Machine project, send us the details and our team will respond.</p>
+        <dl class="details">
+          <div><dt>Office &amp; workshop</dt><dd>Jl. Canadian Broadway, Pergudangan COMMPARK Block B-003, Kota Wisata, Narogong, Cileungsi — Bogor</dd></div>
+          <div><dt>General Trading / Sales</dt><dd>Cecilia · <a href="tel:+6281806974910">+62 818-0697-4910</a><br>Theresia · <a href="tel:+628128100370">+62 812-8105-0370</a><br>Salsa · <a href="tel:+6287720092201">+62 877-2009-2201</a></dd></div>
+          <div><dt>Engineering Project</dt><dd>Robert · <a href="tel:+62818165860">+62 818-1658-60</a><br>Sai · <a href="tel:+6282113207212">+62 821-1320-7212</a><br>Kusmadi · <a href="tel:+628139987964">+62 813-9986-7964</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:trimuri.b03@gmail.com">trimuri.b03@gmail.com</a><br><a href="mailto:sales@trimurikaryacipta.com">sales@trimurikaryacipta.com</a></dd></div>
+        </dl>
+      </div>
+
+      <form class="form reveal" id="inquiryForm" novalidate>
+        <h3>Send an inquiry</h3>
+        <p class="form__note">Takes about a minute. Opens WhatsApp with your message ready to send.</p>
+        <div class="fields">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" required autocomplete="name">
+            <span class="err" id="name-err"></span>
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input id="company" name="company" autocomplete="organization">
+            <span class="err"></span>
+          </div>
+          <div class="field">
+            <label for="contactInfo">Email or WhatsApp number</label>
+            <input id="contactInfo" name="contactInfo" required autocomplete="email">
+            <span class="err" id="contactInfo-err"></span>
+          </div>
+          <div class="field">
+            <label for="type">What is this about</label>
+            <select id="type" name="type">
+              <option>General trading</option>
+              <option>Engineering / automation</option>
+              <option>Special Purpose Machine</option>
+              <option>Something else</option>
+            </select>
+            <span class="err"></span>
+          </div>
+          <div class="field field--full">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required placeholder="What you are looking for, quantities, timing, or the process you need a machine for."></textarea>
+            <span class="err" id="message-err"></span>
+          </div>
+        </div>
+        <button class="btn btn--solid btn--block" type="submit">Continue on WhatsApp</button>
+        <p class="form__foot">Nothing is stored by this site. Your details go straight into the WhatsApp message.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="foot__brand">
+          <img src="tkc-logo.png" alt="" width="40" height="40">
+          <span class="brand__text">
+            <strong>PT Trimuri Karya Cipta</strong>
+            <span class="brand__sub">General trading / engineering system integrator</span>
+          </span>
+        </div>
+        <p>Industrial trading, automation, system integration and Special Purpose Machine solutions for customers across Indonesia.</p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#business">Business</a></li>
+          <li><a href="#why">Why work with us</a></li>
+          <li><a href="#csr">Community</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Work</h4>
+        <ul>
+          <li><a href="#capabilities">Capabilities</a></li>
+          <li><a href="#brands">Brands</a></li>
+          <li><a href="#customers">Customers</a></li>
+          <li><a href="#projects">Projects</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:sales@trimurikaryacipta.com">sales@trimurikaryacipta.com</a></li>
+          <li><a href="tel:+6287720092201">Sales: +62 877-2009-2201</a></li>
+          <li><a href="#contact">Cileungsi — Bogor</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <span>© <span id="year"></span> PT Trimuri Karya Cipta</span>
+      <span>General trading and engineering support since 2006</span>
+    </div>
+  </div>
+</footer>
+
+<div class="wa">
+  <span class="wa__label" aria-hidden="true">Chat with us</span>
+  <button class="wa__btn" id="waButton" type="button" aria-label="Chat with PT Trimuri Karya Cipta on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.5 2 2 6.2 2 11.3c0 2.5 1.1 4.8 2.9 6.4L4 22l4.5-1.8c1.1.4 2.3.6 3.5.6 5.5 0 10-4.2 10-9.5S17.5 2 12 2Zm0 17c-1.2 0-2.3-.2-3.3-.6l-.4-.2-2.4 1 .8-2.3-.3-.4A7.4 7.4 0 0 1 4 11.3C4 7.3 7.6 4 12 4s8 3.3 8 7.3-3.6 7.7-8 7.7Zm4.2-5.5c-.2-.1-1.3-.7-1.5-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6 6 0 0 1-3-2.6c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.7.7-.9 1.6-.6 2.6.5 1.5 1.5 2.8 2.8 3.8 1 .7 2.1 1.2 3.3 1.3.6.1 1.2 0 1.7-.3.4-.3.7-.7.8-1.2.1-.3.1-.5 0-.6l-.4-.1Z"/></svg>
+  </button>
+</div>
+
+<div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal__box" id="modalBox">
+    <button class="modal__close" id="modalClose" type="button" aria-label="Close project detail">&times;</button>
+    <div class="modal__img" id="modalMediaWrap"><img id="modalImage" src="" alt=""></div>
+    <div class="modal__body">
+      <span class="feature__tag" id="modalClient"></span>
+      <h3 id="modalTitle"></h3>
+      <p id="modalText"></p>
+      <ul class="tags" id="modalTags"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var WA_NUMBER = '6287720092201';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $  = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  /* ---------------------------------------------------------------
+     Missing image files degrade into a labelled blueprint hatch
+     instead of a broken-icon hole in the layout.
+     'error' does not bubble, so listen in the capture phase.
+  --------------------------------------------------------------- */
+  document.addEventListener('error', function (e) {
+    var el = e.target;
+    if (!el || el.tagName !== 'IMG') return;
+    var host = el.closest('[data-missing]') || el.parentElement;
+    if (!host) return;
+    host.classList.add('img-missing');
+    if (!host.hasAttribute('data-missing')) {
+      host.setAttribute('data-missing', (el.getAttribute('src') || 'image') + ' not found');
+    }
+  }, true);
+
+  /* ---------------------------------------------------------------
+     Projects — data driven, rendered as real buttons so the cards
+     are reachable by keyboard and announced correctly.
+  --------------------------------------------------------------- */
+  var projects = [
+    { title: 'TIG Body Machine', customer: 'PT Yutaka Manufacturing Indonesia', image: 'project-2.png',
+      tags: ['Mechatronic', 'Automation', 'SPM'],
+      text: 'A Special Purpose Machine supporting a welded-body production process, covering mechatronic design, automation and machine build.' },
+    { title: 'Broaching Machine', customer: 'PT Inti Poli Metal', image: 'project-3.png',
+      tags: ['SPM', 'Machine build'],
+      text: 'A machine-build project developed for a specific metal-forming application on the customer line.' },
+    { title: 'Auto Transfer Hole Punching Machine', customer: 'PT Denso Indonesia', image: 'project-4.png',
+      tags: ['Automation', 'Transfer', 'SPM'],
+      text: 'An automated transfer and punching machine for a high-volume industrial production environment.' },
+    { title: 'Cabin Robot', customer: 'PT Yutaka Manufacturing Indonesia', image: 'project-5.png',
+      tags: ['Robotics', 'Automation'],
+      text: 'An automation project integrating robotic movement into an existing manufacturing process.' },
+    { title: 'Free Length Check Machine', customer: 'PT Astemo', image: 'project-6.png',
+      tags: ['Inspection', 'Automation'],
+      text: 'An automated inspection machine that checks free length inline during production.' },
+    { title: 'Stocker Out', customer: 'PT Astra Honda Motor', image: 'project-1.png',
+      tags: ['Automation', 'Material handling'],
+      text: 'An automation and material-handling project supporting steady production flow between stations.' }
+  ];
+
+  var grid = $('#projectGrid');
+  if (grid) {
+    grid.innerHTML = projects.slice(1).map(function (p, i) {
+      return '<button class="project" type="button" data-project="' + (i + 1) + '">' +
+               '<span class="project__img" data-missing="' + p.image + '">' +
+                 '<img src="' + p.image + '" alt="' + p.title + '" loading="lazy" width="600" height="450">' +
+               '</span>' +
+               '<span class="project__body">' +
+                 '<span class="project__title">' + p.title + '</span>' +
+                 '<span class="project__meta">' + p.customer + '</span>' +
+               '</span>' +
+             '</button>';
+    }).join('');
+  }
+
+  /* ---------------------------------------------------------------
+     Modal with focus capture and restore.
+  --------------------------------------------------------------- */
+  var modal = $('#projectModal');
+  var modalBox = $('#modalBox');
+  var lastFocused = null;
+  var FOCUSABLE = 'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])';
+
+  function openProject(index) {
+    var p = projects[index];
+    if (!p) return;
+    lastFocused = document.activeElement;
+
+    var wrap = $('#modalMediaWrap');
+    wrap.classList.remove('img-missing');
+    wrap.setAttribute('data-missing', p.image + ' not found');
+    var img = $('#modalImage');
+    img.src = p.image;
+    img.alt = p.title;
+
+    $('#modalClient').textContent = p.customer;
+    $('#modalTitle').textContent = p.title;
+    $('#modalText').textContent = p.text;
+    $('#modalTags').innerHTML = p.tags.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.body.classList.add('is-locked');
+    $('#modalClose').focus();
+  }
+
+  function closeModal() {
+    if (!modal.classList.contains('is-open')) return;
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    document.body.classList.remove('is-locked');
+    if (lastFocused) lastFocused.focus();
+  }
+
+  document.addEventListener('click', function (e) {
+    var trigger = e.target.closest('[data-project]');
+    if (trigger) openProject(Number(trigger.dataset.project));
+  });
+  $('#modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+
+  modalBox.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var items = $$(FOCUSABLE, modalBox).filter(function (el) { return el.offsetParent !== null; });
+    if (!items.length) return;
+    var first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  /* ---------------------------------------------------------------
+     Mobile navigation.
+  --------------------------------------------------------------- */
+  var burger = $('#burger');
+  var navLinks = $('#navLinks');
+  var nav = $('#nav');
+
+  function setMenu(open) {
+    navLinks.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.classList.toggle('is-locked', open);
+  }
+
+  burger.addEventListener('click', function () {
+    setMenu(burger.getAttribute('aria-expanded') !== 'true');
+  });
+  navLinks.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('click', function (e) {
+    if (burger.getAttribute('aria-expanded') !== 'true') return;
+    if (!e.target.closest('#navLinks') && !e.target.closest('#burger')) setMenu(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    closeModal();
+    if (burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); }
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 860 && burger.getAttribute('aria-expanded') === 'true') setMenu(false);
+  });
+
+  /* ---------------------------------------------------------------
+     Brand filter and search, with a live result count and an
+     empty state that tells you what to do next.
+  --------------------------------------------------------------- */
+  var tiles = $$('.brand-tile');
+  var searchInput = $('#brandSearch');
+  var emptyState = $('#brandEmpty');
+  var countNote = $('#brandCount');
+  var activeFilter = 'all';
+
+  function applyFilter() {
+    var q = searchInput.value.trim().toLowerCase();
+    var shown = 0;
+    tiles.forEach(function (tile) {
+      var okCat = activeFilter === 'all' || tile.dataset.cat === activeFilter;
+      var okName = tile.dataset.name.toLowerCase().indexOf(q) !== -1;
+      var visible = okCat && okName;
+      tile.hidden = !visible;
+      if (visible) shown++;
+    });
+    emptyState.classList.toggle('is-on', shown === 0);
+    $('#brandGrid').style.display = shown === 0 ? 'none' : '';
+    countNote.textContent = shown + ' of ' + tiles.length + ' brands shown';
+  }
+
+  $$('#brandFilters .chip').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $$('#brandFilters .chip').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      btn.setAttribute('aria-pressed', 'true');
+      activeFilter = btn.dataset.filter;
+      applyFilter();
+    });
+  });
+  searchInput.addEventListener('input', applyFilter);
+  applyFilter();
+
+  /* ---------------------------------------------------------------
+     Customer tabs — full ARIA tab pattern with arrow-key support.
+  --------------------------------------------------------------- */
+  var tabs = $$('[role="tab"]');
+
+  function selectTab(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      $('#' + t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tab.focus();
+  }
+
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { selectTab(tab); });
+    tab.addEventListener('keydown', function (e) {
+      var map = { ArrowRight: 1, ArrowLeft: -1, Home: 'first', End: 'last' };
+      if (!(e.key in map)) return;
+      e.preventDefault();
+      var next = map[e.key] === 'first' ? 0
+               : map[e.key] === 'last' ? tabs.length - 1
+               : (i + map[e.key] + tabs.length) % tabs.length;
+      selectTab(tabs[next], true);
+    });
+  });
+
+  /* ---------------------------------------------------------------
+     WhatsApp handoff + inline form validation.
+  --------------------------------------------------------------- */
+  function openWhatsApp(text) {
+    window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  }
+
+  $('#waButton').addEventListener('click', function () {
+    openWhatsApp('Hello PT Trimuri Karya Cipta, I would like to ask about your products and engineering solutions.');
+  });
+
+  var form = $('#inquiryForm');
+
+  function showError(field, msg) {
+    var input = $('#' + field);
+    var slot = $('#' + field + '-err');
+    input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    if (msg) input.setAttribute('aria-describedby', field + '-err');
+    else input.removeAttribute('aria-describedby');
+    if (slot) slot.textContent = msg || '';
+    return !msg;
+  }
+
+  function validate() {
+    var ok = true;
+    var name = $('#name').value.trim();
+    var contact = $('#contactInfo').value.trim();
+    var message = $('#message').value.trim();
+
+    ok = showError('name', name ? '' : 'Add your name so we know who to reply to.') && ok;
+
+    var looksValid = /\S+@\S+\.\S+/.test(contact) || /[0-9]{7,}/.test(contact.replace(/[^0-9]/g, ''));
+    ok = showError('contactInfo', contact
+      ? (looksValid ? '' : 'Enter a full email address or phone number.')
+      : 'We need an email or number to reach you.') && ok;
+
+    ok = showError('message', message.length >= 10
+      ? ''
+      : 'Give us a little more detail — at least a sentence.') && ok;
+
+    return ok;
+  }
+
+  ['name', 'contactInfo', 'message'].forEach(function (id) {
+    $('#' + id).addEventListener('blur', validate);
+    $('#' + id).addEventListener('input', function () {
+      if ($('#' + id).getAttribute('aria-invalid') === 'true') validate();
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate()) {
+      var firstBad = form.querySelector('[aria-invalid="true"]');
+      if (firstBad) firstBad.focus();
+      return;
+    }
+    var text = 'Hello PT Trimuri Karya Cipta,\n\n' +
+      'Name: ' + $('#name').value.trim() + '\n' +
+      'Company: ' + ($('#company').value.trim() || '-') + '\n' +
+      'Email / WhatsApp: ' + $('#contactInfo').value.trim() + '\n' +
+      'Subject: ' + $('#type').value + '\n\n' +
+      'Message:\n' + $('#message').value.trim();
+    openWhatsApp(text);
+  });
+
+  /* ---------------------------------------------------------------
+     Nav state: shadow on scroll + current-section highlight.
+     Scroll position drives the highlight, so short sections at the
+     bottom of the page still register.
+  --------------------------------------------------------------- */
+  var sections = $$('main section[id]');
+  var anchors = $$('.links a');
+  var ticking = false;
+
+  function syncNav() {
+    nav.classList.toggle('is-stuck', window.scrollY > 12);
+
+    var line = window.scrollY + window.innerHeight * 0.35;
+    var current = sections[0];
+    sections.forEach(function (s) { if (s.offsetTop <= line) current = s; });
+
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) {
+      current = sections[sections.length - 1];
+    }
+    anchors.forEach(function (a) {
+      a.setAttribute('aria-current', a.getAttribute('href') === '#' + current.id ? 'true' : 'false');
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(syncNav); }
+  }, { passive: true });
+  syncNav();
+
+  /* ---------------------------------------------------------------
+     Reveal — one quiet entrance per block, skipped entirely when
+     the visitor has asked for reduced motion.
+  --------------------------------------------------------------- */
+  var revealables = $$('.reveal');
+  if (reduced || !('IntersectionObserver' in window)) {
+    revealables.forEach(function (el) { el.classList.add('is-in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealables.forEach(function (el) { io.observe(el); });
+  }
+
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
