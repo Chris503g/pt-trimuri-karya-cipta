@@ -73,11 +73,11 @@
      Coding Alpha 2: current-section navigation feedback
      Passive scroll tracking; no DOM changes to the accepted layout.
      ============================================================= */
-  const trackedLinks = $(
+  const trackedLinks = $$(
     '.tkc-links .tkc-link[href^="#"],' +
     '.tkc-mobile-menu-link[href^="#"]:not(.tkc-mobile-cta)'
   );
-  const trackedSections = $('main > section[id]');
+  const trackedSections = $$('main > section[id]');
   if (trackedLinks.length && trackedSections.length) {
     let navFrame = 0;
 
@@ -131,7 +131,7 @@
     const added = new Set();
 
     const register = (selector, kind) => {
-      $(selector).forEach(element => {
+      $$(selector).forEach(element => {
         if (added.has(element) || element.hasAttribute("hidden")) return;
         added.add(element);
         element.setAttribute("data-tkc-reveal", kind);
@@ -164,7 +164,7 @@
 
     // Keep a restrained project-card sequence, without delayed
     // animations on narrow single-column screens.
-    $(".tkc-projects-grid .tkc-project-card").forEach((card, index) => {
+    $$(".tkc-projects-grid .tkc-project-card").forEach((card, index) => {
       const delay = window.matchMedia("(max-width: 767px)").matches
         ? 0 : (index % 3) * 85;
       card.style.setProperty("--tkc-reveal-delay", delay + "ms");
