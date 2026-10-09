@@ -26,6 +26,14 @@ node --test
 ```
 
 
+### Alpha 3 acceptance corrections — October 9, 2026
+
+- Corrected desktop menu ordering (Projects before Brands) to match the existing page structure; no website sections were moved.
+- Removed the left/right service carousel buttons and their dedicated 82px controls column.
+- Resolved carousel autoplay appearing stationary when the mouse pointer rests over the strip: ordinary hover no longer pauses motion.
+- Increased the gentle automatic movement to approximately 52 pixels/second when visible and enabled, and added a discreet pause/resume toggle.
+- Kept manual horizontal swipe, mouse drag, trackpad and keyboard input; manual interaction briefly pauses autoplay before it resumes.
+
 ## Alpha 3 — Navigation, Services & Engineering Project Details
 
 This release addresses the October 9 acceptance feedback while maintaining the original Webflow colors, type, cards and layout.
@@ -33,7 +41,7 @@ This release addresses the October 9 acceptance feedback while maintaining the o
 ### Changes
 
 - **Sticky navigation** — navbar remains visible when scrolling, with subtle elevation when the document moves and a yellow underline for both hovered and active section links. Mobile navigation behavior is retained.
-- **Continuous service carousel** — the four existing TKC service cards drift automatically left and wrap seamlessly; use the arrow controls, scroll left/right, or drag with the mouse. It pauses on hover, keyboard focus and manual use; autoplay is disabled for reduced-motion users.
+- **Continuous service carousel** — the four existing TKC service cards drift automatically left and wrap seamlessly. The left/right screen buttons have been removed; users can still drag, swipe, scroll horizontally, or use keyboard arrows. Autoplay does not stop on ordinary hover. A compact Pause/Play control is available; manual interactions pause movement briefly, and autoplay is disabled for reduced-motion users.
 - **Engineering project modals** — all six existing project cards can be activated by click or Enter/Space. The modal includes the existing project image, title, customer, and four clearly labeled placeholders: Application/Background, Engineering Scope, Technical Specifications, and Project Outcome. No unverified project information was introduced.
 - **Floating WhatsApp-style contact icon** — opens the website's Contact Us section using an internal anchor, not an external WhatsApp message.
 - **Accessibility** — modal focus is restored to the originating card; Escape and the close button dismiss it; keyboard Tab stays within the dialog; service navigation has dedicated accessible labels and pause behavior.
@@ -41,10 +49,10 @@ This release addresses the October 9 acceptance feedback while maintaining the o
 
 ### Browser acceptance checklist (Windows)
 
-- [ ] Desktop: hover Home, About, Capabilities, Brands, Projects and Contact. Confirm the hovered option receives a yellow indicator without resetting the active section.
+- [ ] Desktop: verify navbar order **Home → About → Capabilities → Projects → Brands → Contact**, then hover every item. The section order itself must stay unchanged.
 - [ ] Scroll slowly through the page. Confirm the white navbar stays visible and its current-section indicator follows the page.
-- [ ] Watch the service cards move automatically from right to left and reappear seamlessly. Hover them to pause, then move away to resume.
-- [ ] Use the service left/right arrow buttons, horizontal trackpad/finger swipe, mouse drag and keyboard arrows (focus the carousel first).
+- [ ] Watch the service cards move automatically from right to left and reappear seamlessly. Hover the strip: autoplay should **continue** rather than freezing.
+- [ ] Confirm the left/right screen arrow buttons are gone; use the small Pause/Play button to stop/resume, and try horizontal trackpad/finger swipe, mouse drag and keyboard arrows (focus the carousel first).
 - [ ] Open each of the six engineering projects and verify the correct image, name and client. Confirm all four information fields show placeholders, not fabricated technical facts.
 - [ ] Close the modal using the × button, Escape and backdrop. Confirm keyboard focus returns to the project card.
 - [ ] Click the floating green WhatsApp-style icon; it must scroll to Contact Us, not navigate to an external WhatsApp link.
