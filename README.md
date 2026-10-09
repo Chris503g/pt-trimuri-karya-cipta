@@ -1,12 +1,12 @@
-# TKC Website V1.0 — Coding Alpha 2
+# TKC Website V1.0 — Coding Alpha 3
 
-**Development baseline:** Accepted TKC Coding Alpha 1, faithfully reconstructed from the latest TKC Webflow design. Alpha 1 remains frozen on branch `tkc-coding-alpha1`. All Alpha 2 changes are isolated on branch `tkc-coding-alpha2`.
+**Development baseline:** Accepted Alpha 1 layout and Alpha 2 motion features. Alpha 1 and Alpha 2 are preserved on their respective branches. Alpha 3 lives on `tkc-coding-alpha3` and adds only the requested interaction improvements.
 
 This build is an HTML/CSS/JavaScript reconstruction of the **latest saved Webflow design**, including its primary styling, responsive breakpoints, customer/brand tabs, six engineering project cards, selected portfolio entries, contact information and pending PDF placeholders. No Webflow subscription is needed to run this local build.
 
 ## Run locally on Windows
 
-1. Download the **tkc-coding-alpha2** branch ZIP from GitHub.
+1. Download the **tkc-coding-alpha3** branch ZIP from GitHub.
 2. Extract the entire ZIP to a new folder. Keep `index.html`, `css/`, `js/` and project image files together.
 3. From that folder open Terminal / PowerShell and run:
 
@@ -25,6 +25,40 @@ You may also double-click `index.html` for a basic preview, but the local server
 node --test
 ```
 
+
+## Alpha 3 — Navigation, Services & Engineering Project Details
+
+This release addresses the October 9 acceptance feedback while maintaining the original Webflow colors, type, cards and layout.
+
+### Changes
+
+- **Sticky navigation** — navbar remains visible when scrolling, with subtle elevation when the document moves and a yellow underline for both hovered and active section links. Mobile navigation behavior is retained.
+- **Continuous service carousel** — the four existing TKC service cards drift automatically left and wrap seamlessly; use the arrow controls, scroll left/right, or drag with the mouse. It pauses on hover, keyboard focus and manual use; autoplay is disabled for reduced-motion users.
+- **Engineering project modals** — all six existing project cards can be activated by click or Enter/Space. The modal includes the existing project image, title, customer, and four clearly labeled placeholders: Application/Background, Engineering Scope, Technical Specifications, and Project Outcome. No unverified project information was introduced.
+- **Floating WhatsApp-style contact icon** — opens the website's Contact Us section using an internal anchor, not an external WhatsApp message.
+- **Accessibility** — modal focus is restored to the originating card; Escape and the close button dismiss it; keyboard Tab stays within the dialog; service navigation has dedicated accessible labels and pause behavior.
+- **No Bootstrap dependency** — retained native HTML/CSS/JS to preserve visual consistency and minimize page weight.
+
+### Browser acceptance checklist (Windows)
+
+- [ ] Desktop: hover Home, About, Capabilities, Brands, Projects and Contact. Confirm the hovered option receives a yellow indicator without resetting the active section.
+- [ ] Scroll slowly through the page. Confirm the white navbar stays visible and its current-section indicator follows the page.
+- [ ] Watch the service cards move automatically from right to left and reappear seamlessly. Hover them to pause, then move away to resume.
+- [ ] Use the service left/right arrow buttons, horizontal trackpad/finger swipe, mouse drag and keyboard arrows (focus the carousel first).
+- [ ] Open each of the six engineering projects and verify the correct image, name and client. Confirm all four information fields show placeholders, not fabricated technical facts.
+- [ ] Close the modal using the × button, Escape and backdrop. Confirm keyboard focus returns to the project card.
+- [ ] Click the floating green WhatsApp-style icon; it must scroll to Contact Us, not navigate to an external WhatsApp link.
+- [ ] Check mobile at 390px and tablet at 820px for no clipping, unwanted horizontal page scroll or overlapping floating controls.
+- [ ] Enable Windows reduced-motion preference and reload: reveal effects should be absent and service autoplay should stop.
+- [ ] Check that existing portfolio tabs, contact numbers and disabled PDF placeholders remain as in Alpha 2.
+
+### Automated tests
+
+Run `node --test` from the project folder. It executes the unchanged Alpha 1 tests, the maintained Alpha 2 motion tests, and the new Alpha 3 tests.
+
+**Deployment:** Not deployed. Use the local Node.js preview (`node server.js`) until acceptance is confirmed.
+
+---
 
 ## Alpha 2 — Motion & Interaction Polish
 
@@ -90,6 +124,9 @@ If you tested the first ZIP, download the ZIP again and extract into a **new fol
 - `css/styles.css` — Webflow-derived visual styles plus responsive layout rules
 - `js/main.js` — accessible vanilla JS for tabs, mobile menu, scroll reveals and active navigation
 - `css/motion.css` — Alpha 2 progressive, reduced-motion-aware entrance and hover effects
+- `css/alpha3.css` — Alpha 3 sticky navbar, service carousel, project modal and floating contact button
+- `js/alpha3.js` — Alpha 3 native JavaScript interactions
+- `tests/alpha3.test.js` — functional regressions for all Alpha 3 components
 - `tests/motion.test.js` — behavioral regression tests for interactions and scroll motion
 - `project-1.png`–`project-6.png` — original TKC project images
 - `tkc-logo-refined.svg` — scalable TKC identity; `tkc-cover.jpg` social media image
