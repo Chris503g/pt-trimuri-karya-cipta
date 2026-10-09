@@ -48,3 +48,22 @@ test("responsive settings preserved",()=>{
  assert.match(css,/max-width:479px/);
  assert.match(css,/tkc-projects-grid/);
 });
+
+
+test("Alpha 1 acceptance: About grid fits within its container",()=>{
+ assert.match(css,/grid-template-columns:minmax\(0,45fr\) minmax\(0,55fr\)/);
+ assert.doesNotMatch(css,/grid-template-columns:45% 55%/);
+ assert.match(css,/tkc-about-grid > \.tkc-about-visual/);
+});
+test("Alpha 1 acceptance: hero and About headings are readable",()=>{
+ assert.match(html,/Your Partner in <span class="tkc-highlight">Industrial Solutions<\/span>/);
+ assert.match(html,/PRODUCTS\. AUTOMATION\. ENGINEERING\./);
+ assert.match(html,/INDUSTRIAL SUPPORT<\/strong>/);
+ assert.match(css,/\.tkc-note-title\s*\{[^}]*overflow-wrap:break-word/);
+});
+test("Alpha 1 acceptance: omit PT AHM only from customer list",()=>{
+ const customers=html.split('id="customers"')[1].split('id="csr"')[0];
+ assert.doesNotMatch(customers,/PT Astra Honda Motor/);
+ assert.match(html,/>PT AHM<\/span>/);  // Stocker Out project is preserved.
+ assert.match(html,/Stocker Out engineering project for PT Astra Honda Motor/);
+});
