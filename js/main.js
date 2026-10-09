@@ -69,52 +69,7 @@
     button.setAttribute("disabled", "");
     button.addEventListener("click", event => event.preventDefault());
   });
-  /* =============================================================
-     Coding Alpha 2: current-section navigation feedback
-     Passive scroll tracking; no DOM changes to the accepted layout.
-     ============================================================= */
-  const trackedLinks = $$(
-    '.tkc-links .tkc-link[href^="#"],' +
-    '.tkc-mobile-menu-link[href^="#"]:not(.tkc-mobile-cta)'
-  );
-  const trackedSections = $$('main > section[id]');
-  if (trackedLinks.length && trackedSections.length) {
-    let navFrame = 0;
-
-    const syncCurrentSection = () => {
-      navFrame = 0;
-      const scrollLine = window.scrollY + Math.min(window.innerHeight * .36, 290);
-      let active = window.scrollY < 30 ? "#" : "#";
-
-      if (window.scrollY >= 30) {
-        for (const section of trackedSections) {
-          if (section.getBoundingClientRect().top + window.scrollY <= scrollLine) {
-            active = "#" + section.id;
-          } else {
-            break;
-          }
-        }
-      }
-
-      trackedLinks.forEach(link => {
-        const current = link.getAttribute("href") === active;
-        if (current) link.setAttribute("aria-current", "location");
-        else link.removeAttribute("aria-current");
-        if (link.classList.contains("tkc-link")) {
-          link.classList.toggle("tkc-link-active", current);
-        }
-      });
-    };
-
-    const scheduleNavSync = () => {
-      if (!navFrame) navFrame = window.requestAnimationFrame(syncCurrentSection);
-    };
-
-    window.addEventListener("scroll", scheduleNavSync, { passive: true });
-    window.addEventListener("resize", scheduleNavSync);
-    window.addEventListener("hashchange", scheduleNavSync);
-    scheduleNavSync();
-  }
+  // Navigation scroll state is now handled by js/alpha3.js.
 
   /* =============================================================
      Coding Alpha 2: one-time scroll reveals
@@ -152,7 +107,7 @@
       "fade"
     );
     register(
-      ".tkc-service-card, .tkc-business-card, .tkc-cap-row, " +
+      " .tkc-business-card, .tkc-cap-row, " +
       ".tkc-projects-grid .tkc-project-card",
       "card"
     );
