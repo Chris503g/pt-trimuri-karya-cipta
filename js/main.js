@@ -69,4 +69,144 @@
     button.setAttribute("disabled", "");
     button.addEventListener("click", event => event.preventDefault());
   });
+  /* =============================================================
+     Coding Alpha 2: current-section navigation feedback
+     Passive scroll tracking; no DOM changes to the accepted layout.
+     ============================================================= */
+  const trackedLinks = $(
+    '.tkc-links .tkc-link[href^="#"],' +
+    '.tkc-mobile-menu-link[href^="#"]:not(.tkc-mobile-cta)'
+  );
+  const trackedSections = $('main > section[id]');
+  if (trackedLinks.length && trackedSections.length) {
+    let navFrame = 0;
+
+    const syncCurrentSection = () => {
+      navFrame = 0;
+      const scrollLine = window.scrollY + Math.min(window.innerHeight * .36, 290);
+      let active = window.scrollY < 30 ? "#" : "#";
+
+      if (window.scrollY >= 30) {
+        for (const section of trackedSections) {
+          if (section.getBoundingClientRect().top + window.scrollY <= scrollLine) {
+            active = "#" + section.id;
+          } else {
+            break;
+          }
+        }
+      }
+
+      trackedLinks.forEach(link => {
+        const current = link.getAttribute("href") === active;
+        if (current) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+        if (link.classList.contains("tkc-link")) {
+          link.classList.toggle("tkc-link-active", current);
+        }
+      });
+    };
+
+    const scheduleNavSync = () => {
+      if (!navFrame) navFrame = window.requestAnimationFrame(syncCurrentSection);
+    };
+
+    window.addEventListener("scroll", scheduleNavSync, { passive: true });
+    window.addEventListener("resize", scheduleNavSync);
+    window.addEventListener("hashchange", scheduleNavSync);
+    scheduleNavSync();
+  }
+
+  /* =============================================================
+     Coding Alpha 2: one-time scroll reveals
+     Progressive enhancement — baseline content remains visible
+     without JS, IntersectionObserver, or animation preference.
+     ============================================================= */
+  const motionPreference = window.matchMedia
+    ? window.matchMedia("(prefers-reduced-motion: reduce)")
+    : { matches: false };
+
+  if (!motionPreference.matches && "IntersectionObserver" in window) {
+    const root = document.documentElement;
+    const targets = [];
+    const added = new Set();
+
+    const register = (selector, kind) => {
+      $(selector).forEach(element => {
+        if (added.has(element) || element.hasAttribute("hidden")) return;
+        added.add(element);
+        element.setAttribute("data-tkc-reveal", kind);
+        targets.push(element);
+      });
+    };
+
+    // Section titles, selected introductory copy and key content.
+    register(
+      ".tkc-about-title, .tkc-business-title, .tkc-cap-title, " +
+      ".tkc-projects-title, .tkc-brands-compact-title, " +
+      ".tkc-eng-customers-title, .tkc-csr-title, .tkc-contact-title",
+      "heading"
+    );
+    register(
+      ".tkc-about-lead, .tkc-projects-intro, .tkc-contact-intro, " +
+      ".tkc-business-intro, .tkc-cap-intro, .tkc-eng-customers-intro",
+      "fade"
+    );
+    register(
+      ".tkc-service-card, .tkc-business-card, .tkc-cap-row, " +
+      ".tkc-projects-grid .tkc-project-card",
+      "card"
+    );
+    register(
+      ".tkc-brand-mini:not([hidden]), .tkc-client-name:not([hidden])",
+      "fade"
+    );
+    register(".tkc-about-visual, .tkc-csr-visual", "image");
+
+    // Keep a restrained project-card sequence, without delayed
+    // animations on narrow single-column screens.
+    $(".tkc-projects-grid .tkc-project-card").forEach((card, index) => {
+      const delay = window.matchMedia("(max-width: 767px)").matches
+        ? 0 : (index % 3) * 85;
+      card.style.setProperty("--tkc-reveal-delay", delay + "ms");
+    });
+
+    // Mark already-visible elements before enabling hidden reveal states,
+    // avoiding an initial flash of disappearing content.
+    targets.forEach(element => {
+      if (!element.getClientRects().length) return;
+      const bounds = element.getBoundingClientRect();
+      if (bounds.bottom >= 0 && bounds.top <= window.innerHeight * .9) {
+        element.classList.add("tkc-is-visible");
+      }
+    });
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("tkc-is-visible");
+        revealObserver.unobserve(entry.target); // never replay on scroll
+      });
+    }, {
+      threshold: .12,
+      rootMargin: "0px 0px -6% 0px"
+    });
+
+    targets.forEach(element => {
+      if (!element.classList.contains("tkc-is-visible")) {
+        revealObserver.observe(element);
+      }
+    });
+    root.classList.add("tkc-motion-ready");
+
+    // If accessibility preferences change mid-session, stop hiding content.
+    if (typeof motionPreference.addEventListener === "function") {
+      motionPreference.addEventListener("change", event => {
+        if (!event.matches) return;
+        revealObserver.disconnect();
+        targets.forEach(element => element.classList.add("tkc-is-visible"));
+        root.classList.remove("tkc-motion-ready");
+      });
+    }
+  }
+
 })();
