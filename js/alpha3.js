@@ -80,7 +80,7 @@
 
   if (viewport && track) {
     const originals = $$(".tkc-service-card", track);
-    const controls = $$('.tkc-service-carousel-arrow');
+    const pauseButton = $(".tkc-service-carousel-pause");
     if (originals.length > 1) {
       const clones = () => originals.map(card => {
         const copy = card.cloneNode(true);
@@ -94,9 +94,7 @@
       track.append(...after);
 
       let groupWidth = 0;
-      let hovering = false;
-      let focused = false;
-      let visible = true;
+      let explicitlyPaused = false;
       let dragging = false;
       let dragLastX = 0;
       let lastTime = 0;
@@ -136,24 +134,36 @@
         });
       };
 
-      controls.forEach(button => {
-        button.addEventListener("click", () => {
-          scrollOne(Number(button.dataset.carouselDirection) || 1);
+      // A single pause control replaces the previous/next arrow buttons.
+      // The carousel keeps moving on ordinary hover; otherwise people
+      // arriving with their pointer over the strip see a static carousel.
+      if (pauseButton) {
+        const icon = $("[aria-hidden]", pauseButton);
+        pauseButton.addEventListener("click", () => {
+          explicitlyPaused = !explicitlyPaused;
+          pauseButton.setAttribute("aria-pressed", String(explicitlyPaused));
+          pauseButton.setAttribute("aria-label", explicitlyPaused
+            ? "Resume automatic service scrolling"
+            : "Pause automatic service scrolling");
+          pauseButton.title = explicitlyPaused
+            ? "Resume automatic scrolling" : "Pause automatic scrolling";
+          if (icon) icon.textContent = explicitlyPaused ? "▶" : "Ⅱ";
+          if (!explicitlyPaused) pauseUntil = 0;
         });
-      });
+      }
 
       viewport.addEventListener("keydown", event => {
         if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
         event.preventDefault();
         scrollOne(event.key === "ArrowRight" ? 1 : -1);
       });
-      viewport.addEventListener("mouseenter", () => { hovering = true; });
-      viewport.addEventListener("mouseleave", () => { hovering = false; pauseForInteraction(1600); });
-      viewport.addEventListener("focusin", () => { focused = true; });
-      viewport.addEventListener("focusout", event => {
-        if (!viewport.contains(event.relatedTarget)) focused = false;
-      });
-      viewport.addEventListener("wheel", () => pauseForInteraction(), { passive: true });
+      viewport.addEventListener("focusin", () => pauseForInteraction(2500));
+      viewport.addEventListener("wheel", event => {
+        // Normal vertical page scrolling should not stop the carousel.
+        if (Math.abs(event.deltaX || 0) > Math.abs(event.deltaY || 0)) {
+          pauseForInteraction(2200);
+        }
+      }, { passive: true });
       viewport.addEventListener("touchstart", () => pauseForInteraction(5500), { passive: true });
       viewport.addEventListener("scroll", normalizeScroll, { passive: true });
 
@@ -182,13 +192,8 @@
       viewport.addEventListener("pointercancel", finishDrag);
       viewport.addEventListener("lostpointercapture", finishDrag);
 
-      if ("IntersectionObserver" in window) {
-        const viewportObserver = new IntersectionObserver(entries => {
-          visible = entries.some(entry => entry.isIntersecting);
-        }, { threshold: .05 });
-        viewportObserver.observe(viewport);
-      }
-
+      // Use viewport geometry rather than a persistent intersection flag.
+      // It avoids an observer callback leaving autoplay stopped unexpectedly.
       measure();
       let resizeScheduled = false;
       window.addEventListener("resize", () => {
@@ -204,11 +209,14 @@
       const tick = now => {
         const elapsed = lastTime ? Math.min(now - lastTime, 75) : 0;
         lastTime = now;
-        const active = !reducedMotion.matches && !dragging && !hovering &&
-          !focused && visible && document.visibilityState !== "hidden" &&
+        const bounds = viewport.getBoundingClientRect();
+        const bottom = bounds.bottom ?? bounds.top + bounds.height;
+        const onScreen = bounds.top < window.innerHeight && bottom > 0;
+        const active = !reducedMotion.matches && !dragging && !explicitlyPaused &&
+          onScreen && document.visibilityState !== "hidden" &&
           now >= pauseUntil && groupWidth > 0;
         if (active) {
-          viewport.scrollLeft += elapsed * .032; // 32 pixels per second
+          viewport.scrollLeft += elapsed * .052; // 52 pixels per second
           normalizeScroll();
         }
         window.requestAnimationFrame(tick);
