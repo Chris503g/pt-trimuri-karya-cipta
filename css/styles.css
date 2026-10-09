@@ -56,7 +56,7 @@ img{display:block;max-width:100%}
 .tkc-projects-foot-line{display:block;width:34px;height:3px;background-color:#f5b817;}
 .tkc-csr-grid{display:grid;align-items:stretch;grid-column-gap:72px;grid-row-gap:72px;grid-template-columns:1.05fr .95fr;grid-template-rows:auto;}
 .tkc-footer-established-value{color:#e7eef1;font-size:13px;font-weight:700;}
-.tkc-about-grid{display:grid;align-items:stretch;grid-column-gap:74px;grid-row-gap:74px;grid-template-columns:45% 55%;grid-template-rows:auto;}
+.tkc-about-grid{display:grid;align-items:stretch;grid-column-gap:74px;grid-row-gap:74px;grid-template-columns:minmax(0,45fr) minmax(0,55fr);grid-template-rows:auto;}
 .tkc-brand{display:flex;min-width:315px;align-items:center;grid-column-gap:11px;grid-row-gap:11px;color:#10212b;text-decoration:none;}
 .tkc-cap-band-flow{display:flex;align-items:center;grid-column-gap:14px;grid-row-gap:14px;}
 .tkc-hero-content{position:relative;display:flex;height:100%;justify-content:space-between;align-items:center;color:#ffffff;}
@@ -449,4 +449,44 @@ img{display:block;max-width:100%}
 .tkc-eng-customers-title{font-size:27px;}
 .tkc-profile-download-action{width:100%;}
 .tkc-client-filter-row{margin-bottom:16px;grid-column-gap:7px;grid-row-gap:7px;}
+}
+
+
+/* ===========================================================
+   Coding Alpha 1 — acceptance fixes (horizontal fit & copy)
+   This section targets only elements that overflowed in Alpha 1.
+   =========================================================== */
+.tkc-about-grid > .tkc-about-visual,
+.tkc-about-grid > .tkc-about-copy {min-width:0;max-width:100%;}
+.tkc-hero-content {gap:clamp(16px,3vw,44px);}
+.tkc-hero-copy {min-width:0;flex:1 1 630px;max-width:630px;}
+.tkc-hero-note {min-width:0;max-width:190px;flex:0 1 190px;}
+.tkc-note-title {display:block;white-space:normal;overflow-wrap:break-word;word-break:normal;}
+.tkc-hero-title {overflow-wrap:normal;word-break:normal;}
+.tkc-highlight {display:block;}
+.tkc-about-industrial-graphic {min-width:0;max-width:calc(100% - 68px);}
+.tkc-about-industrial-title {font-size:clamp(28px,3vw,42px);line-height:1.07;letter-spacing:-.035em;white-space:normal;overflow-wrap:normal;word-break:normal;}
+.tkc-about-industrial-eyebrow,
+.tkc-about-industrial-caption {white-space:normal;overflow-wrap:break-word;}
+@media (min-width:992px) and (max-width:1240px) {
+  /* Only swap navigation sooner where the desktop links cannot fit. */
+  .tkc-links,.tkc-quote {display:none;}
+  .tkc-mobile-dropdown {display:block;}
+  .tkc-nav-inner {justify-content:space-between;gap:12px;}
+  .tkc-brand {min-width:0;flex-grow:1;}
+}
+@media (max-width:991px) {
+  .tkc-hero {height:auto;min-height:520px;}
+  .tkc-hero-content {height:auto;min-height:520px;flex-direction:column;align-items:flex-start;justify-content:center;padding-top:38px;padding-bottom:32px;}
+  .tkc-hero-copy {flex:0 1 auto;max-width:100%;}
+  .tkc-hero-note {flex:0 0 auto;width:auto;max-width:min(420px,100%);margin:16px 0 0;align-self:flex-start;}
+  .tkc-about-industrial-title {font-size:clamp(30px,4.5vw,42px);}
+}
+@media (max-width:479px) {
+  .tkc-hero {min-height:0;}
+  .tkc-hero-content {min-height:470px;gap:10px;padding-top:42px;padding-bottom:32px;}
+  .tkc-hero-title {font-size:clamp(29px,7vw,34px);}
+  .tkc-about-industrial-title {font-size:clamp(27px,7vw,32px);}
+  .tkc-about-industrial-graphic {max-width:calc(100% - 40px);}
+  .tkc-about-industrial-graphic {left:20px;right:20px;padding-left:15px;}
 }
