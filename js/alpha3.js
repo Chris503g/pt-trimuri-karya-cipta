@@ -98,8 +98,7 @@
       let focused = false;
       let visible = true;
       let dragging = false;
-      let dragStartX = 0;
-      let dragStartScroll = 0;
+      let dragLastX = 0;
       let lastTime = 0;
       let pauseUntil = 0;
       const reducedMotion = window.matchMedia
@@ -161,8 +160,7 @@
       viewport.addEventListener("pointerdown", event => {
         if (event.pointerType !== "mouse" || event.button !== 0) return;
         dragging = true;
-        dragStartX = event.clientX;
-        dragStartScroll = viewport.scrollLeft;
+        dragLastX = event.clientX;
         viewport.classList.add("tkc-service-is-dragging");
         pauseForInteraction(6000);
         if (viewport.setPointerCapture) viewport.setPointerCapture(event.pointerId);
@@ -170,7 +168,8 @@
 
       viewport.addEventListener("pointermove", event => {
         if (!dragging) return;
-        viewport.scrollLeft = dragStartScroll - (event.clientX - dragStartX);
+        viewport.scrollLeft -= event.clientX - dragLastX;
+        dragLastX = event.clientX;
         normalizeScroll();
       });
 
@@ -238,7 +237,7 @@
       const company = $(".tkc-project-client", card);
       const image = $(".tkc-project-image", card);
       if (!name || !company || !image) return;
-      lastFocused = document.activeElement;
+      lastFocused = card; // Return to the originating project tile on close
 
       title.textContent = name.textContent.trim();
       client.textContent = company.textContent.trim();
