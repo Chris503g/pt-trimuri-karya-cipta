@@ -126,7 +126,7 @@ function makeHarness(reduced = false) {
       if (query.includes(".tkc-links .tkc-link")) return [home, about, projectNav];
       if (query === "main > section[id]") return sections;
       if (query === ".tkc-projects-grid .tkc-project-card") return cards;
-      if (query.includes(".tkc-service-card")) return cards;
+      if (query.includes(".tkc-projects-grid .tkc-project-card")) return cards;
       if (query.includes(".tkc-brand-mini:not([hidden])")) return [brand];
       if (query.includes(".tkc-about-visual")) return [illustration];
       if (query.includes(".tkc-about-lead")) return [introduction];
