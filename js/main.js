@@ -107,7 +107,7 @@
       "fade"
     );
     register(
-      " .tkc-business-card, .tkc-cap-row, " +
+      ".tkc-business-card, .tkc-cap-row, " +
       ".tkc-projects-grid .tkc-project-card",
       "card"
     );
