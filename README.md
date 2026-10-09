@@ -25,6 +25,18 @@ You may also double-click `index.html` for a basic preview, but the local server
 node --test tests/smoke.test.js
 ```
 
+## Alpha 1 corrective patch — October 9, 2026
+
+This branch includes fixes from the first Windows browser screenshots:
+
+- Removed the 45% + 55% plus-gap desktop About grid overflow by switching to shrinkable proportional tracks.
+- Allowed the hero's right-side supporting note to wrap instead of being clipped.
+- Corrected missing spaces in the heading copy and allowed INDUSTRIAL SUPPORT to wrap inside its panel.
+- Removed PT Astra Honda Motor from the Engineering Customers showcase (and hid that entry in Webflow); retained the PT AHM Stocker Out engineering project.
+- Preserved the same visual identity, palette, typography and content hierarchy.
+
+If you tested the first ZIP, download the ZIP again and extract into a **new folder** to avoid mixing old/new files.
+
 ## Alpha 1 acceptance checklist
 
 - [ ] Desktop header and footer visually match the latest Webflow design
