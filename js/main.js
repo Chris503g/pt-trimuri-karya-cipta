@@ -59,7 +59,7 @@
       if (event.key === "Escape" && !panel.hidden) close(true);
     });
     window.addEventListener("resize", () => {
-      if (innerWidth >= 992 && !panel.hidden) close();
+      if (innerWidth > 1240 && !panel.hidden) close();
     });
   }
 
