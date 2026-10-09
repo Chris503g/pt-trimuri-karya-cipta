@@ -107,6 +107,7 @@ function harness() {
   }
   const slides = Array.from({ length: 4 }, (_, index) => slide(index));
   track.items = slides.slice();
+  track.list = { ".tkc-service-card": slides };
   const viewport = node();
   viewport.map = { ".tkc-service-track": track };
   viewport.list = { ".tkc-service-card": slides };
