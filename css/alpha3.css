@@ -1,0 +1,354 @@
+/* TKC Website V1.0 — Coding Alpha 3
+   Interaction enhancements layered after Alpha 1/2 styling.
+   Original corporate palette, typography and content remain unchanged. */
+
+:root { --tkc-nav-sticky-height: 76px; }
+
+/* Navigation follows the viewport. The original top strip scrolls away. */
+.tkc-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  background: rgba(255,255,255,.985);
+  transition: box-shadow 200ms ease, background-color 200ms ease;
+}
+.tkc-nav.tkc-nav--scrolled {
+  box-shadow: 0 8px 26px rgba(8,35,50,.12);
+}
+html { scroll-padding-top: calc(var(--tkc-nav-sticky-height) + 14px); }
+main section[id] { scroll-margin-top: calc(var(--tkc-nav-sticky-height) + 14px); }
+
+/* Each navigation item clearly communicates hover and current section. */
+.tkc-links .tkc-link {
+  position: relative;
+  padding-inline: 4px;
+  transition: color 180ms ease;
+}
+.tkc-links .tkc-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #f5b817;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 210ms cubic-bezier(.2,.7,.2,1);
+}
+.tkc-links .tkc-link:hover,
+.tkc-links .tkc-link:focus-visible,
+.tkc-links .tkc-link[aria-current="location"] {
+  color: #0b2535;
+}
+.tkc-links .tkc-link:hover::after,
+.tkc-links .tkc-link:focus-visible::after,
+.tkc-links .tkc-link[aria-current="location"]::after {
+  transform: scaleX(1);
+}
+.tkc-links .tkc-link[aria-current="location"] { box-shadow: none; }
+.tkc-links .tkc-link.tkc-link-active { box-shadow: none; }
+.tkc-mobile-menu-link:hover,
+.tkc-mobile-menu-link:focus-visible {
+  background: #dce8ee;
+  box-shadow: inset 3px 0 0 #f5b817;
+}
+.tkc-contact-fab:focus-visible,
+.tkc-service-carousel-arrow:focus-visible,
+.tkc-service-carousel-viewport:focus-visible,
+.tkc-project-card:focus-visible,
+.tkc-project-modal-close:focus-visible {
+  outline: 3px solid #f5b817;
+  outline-offset: 3px;
+}
+
+/* Continuous loop of TKC service highlights; the first four cards
+   retain their visual design. JS adds two aria-hidden copies. */
+.tkc-service-carousel {
+  max-width: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 82px;
+  align-items: stretch;
+  margin-inline: auto;
+  padding: 0 8px;
+}
+.tkc-service-carousel-viewport {
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-behavior: auto;
+  cursor: grab;
+  touch-action: pan-x;
+}
+.tkc-service-carousel-viewport::-webkit-scrollbar { display: none; }
+.tkc-service-carousel-viewport.tkc-service-is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+.tkc-service-carousel .tkc-service-track.tkc-service-grid {
+  display: flex;
+  width: max-content;
+  max-width: none;
+  grid-template-columns: none;
+  gap: 0;
+  align-items: stretch;
+}
+.tkc-service-carousel .tkc-service-card {
+  flex: 0 0 var(--tkc-service-card-width, clamp(245px, 25vw, 440px));
+  width: var(--tkc-service-card-width, clamp(245px, 25vw, 440px));
+  box-sizing: border-box;
+  min-width: 0;
+}
+.tkc-service-carousel-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  border-left: 1px solid #35505e;
+  background: #0b2535;
+}
+.tkc-service-carousel-arrow {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 35px;
+  background: #17394b;
+  color: #fff;
+  border: 1px solid #426071;
+  border-radius: 3px;
+  font-size: 18px;
+  line-height: 1;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+.tkc-service-carousel-arrow:hover {
+  background: #f5b817;
+  border-color: #f5b817;
+  color: #10212b;
+}
+
+/* Whole project tile opens details, with a small visual affordance. */
+.tkc-project-card[role="button"] {
+  cursor: pointer;
+  position: relative;
+  outline-offset: 3px;
+}
+.tkc-project-card .tkc-project-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px 20px;
+  color: #0d394e;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .025em;
+}
+.tkc-project-view > span { color: #bd8a06; font-size: 17px; }
+.tkc-project-card:hover .tkc-project-view,
+.tkc-project-card:focus-visible .tkc-project-view {
+  color: #b28000;
+}
+
+/* Engineering project detail modal. No unverified project facts. */
+body.tkc-dialog-open { overflow: hidden; }
+.tkc-project-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  padding: 30px 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(3,22,34,.82);
+  backdrop-filter: blur(5px);
+  overflow-y: auto;
+}
+.tkc-project-modal[hidden] { display: none !important; }
+.tkc-project-modal-panel {
+  width: min(1020px,100%);
+  max-height: min(92vh,920px);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0,44%) minmax(0,56%);
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  color: #10212b;
+  overflow-y: auto;
+  border-top: 4px solid #f5b817;
+}
+.tkc-project-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #d7e0e5;
+  background: #fff;
+  color: #152e3c;
+  font-size: 28px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.tkc-project-modal-close:hover { background: #f5b817; }
+.tkc-project-modal-media {
+  position: relative;
+  background: #102b3a;
+  min-height: 460px;
+  overflow: hidden;
+}
+.tkc-project-modal-media img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+.tkc-project-modal-body { padding: 43px 40px 34px; min-width: 0; }
+.tkc-project-modal-eyebrow {
+  display: block;
+  margin-bottom: 13px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  color: #a77904;
+}
+.tkc-project-modal-body h2 {
+  margin: 0 50px 22px 0;
+  font-size: clamp(23px,3vw,32px);
+  line-height: 1.14;
+  overflow-wrap: anywhere;
+}
+.tkc-project-modal-client {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d9e2e6;
+}
+.tkc-project-modal-client span,
+.tkc-project-modal-fields h3 {
+  color: #778992;
+  font-size: 10px;
+  letter-spacing: .08em;
+  font-weight: 800;
+}
+.tkc-project-modal-client strong { font-size: 13px; color: #213b49; }
+.tkc-project-modal-description {
+  margin: 19px 0 22px;
+  line-height: 1.6;
+  color: #4f6470;
+  font-size: 13px;
+}
+.tkc-project-modal-fields {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 14px;
+}
+.tkc-project-modal-fields section {
+  padding: 15px 16px;
+  background: #f3f6f8;
+  border-left: 3px solid #d6e1e6;
+  min-width: 0;
+}
+.tkc-project-modal-fields h3 { margin: 0 0 8px; }
+.tkc-project-modal-fields p {
+  margin: 0;
+  color: #526775;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.tkc-project-modal-footnote {
+  margin: 22px 0 0;
+  color: #7a8b94;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Floating WhatsApp-style contact shortcut. The destination is
+   TKC's on-page Contact section, not an external WhatsApp number. */
+.tkc-contact-fab {
+  position: fixed;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  right: 22px;
+  z-index: 1250;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 10px 15px 10px 12px;
+  border-radius: 100px;
+  background: #1eac5d;
+  color: #fff;
+  border: 2px solid #eaf8ef;
+  box-shadow: 0 9px 26px rgba(4,43,23,.29);
+  font-weight: 800;
+  font-size: 12px;
+  text-decoration: none;
+  transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+.tkc-contact-fab:hover {
+  transform: translateY(-3px);
+  background: #168c4a;
+  box-shadow: 0 13px 28px rgba(4,43,23,.32);
+}
+.tkc-contact-fab-label { white-space: nowrap; }
+body.tkc-dialog-open .tkc-contact-fab { visibility: hidden; }
+@media (max-width: 991px) {
+  :root { --tkc-nav-sticky-height: 68px; }
+  .tkc-service-carousel {
+    grid-template-columns: minmax(0,1fr) 70px;
+    padding: 0 6px;
+  }
+  .tkc-service-carousel .tkc-service-card {
+    --tkc-service-card-width: clamp(240px,40vw,330px);
+  }
+  .tkc-project-modal-panel {
+    grid-template-columns: minmax(0,40%) minmax(0,60%);
+  }
+  .tkc-project-modal-body { padding: 34px 23px 28px; }
+}
+@media (max-width: 767px) {
+  .tkc-service-carousel .tkc-service-card {
+    --tkc-service-card-width: min(78vw,320px);
+  }
+  .tkc-project-modal { align-items: flex-start; padding: 18px 12px; }
+  .tkc-project-modal-panel { display: block; max-height: calc(100dvh - 36px); }
+  .tkc-project-modal-media { min-height: 0; height: 235px; }
+  .tkc-project-modal-body { padding: 24px 20px 28px; }
+  .tkc-project-modal-body h2 { margin-right: 37px; }
+  .tkc-contact-fab-label { display: none; }
+  .tkc-contact-fab {
+    width: 54px;
+    height: 54px;
+    padding: 0;
+    justify-content: center;
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+@media (max-width: 479px) {
+  :root { --tkc-nav-sticky-height: 62px; }
+  .tkc-project-card .tkc-project-view { padding: 0 19px 18px; }
+  .tkc-project-modal-fields { grid-template-columns: minmax(0,1fr); }
+  .tkc-service-carousel { grid-template-columns: minmax(0,1fr) 54px; }
+  .tkc-service-carousel-arrow { width: 38px; height: 34px; }
+  .tkc-service-carousel .tkc-service-card { --tkc-service-card-width: min(78vw,290px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tkc-links .tkc-link,
+  .tkc-links .tkc-link::after,
+  .tkc-contact-fab,
+  .tkc-service-carousel-arrow {
+    transition: none !important;
+  }
+  .tkc-contact-fab:hover { transform: none; }
+}
