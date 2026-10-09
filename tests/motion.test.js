@@ -223,16 +223,7 @@ test("project cards stagger, reveal exactly once and stop being observed", () =>
   assert.equal(observer.watching.has(h.cards[0]), false);
 });
 
-test("navigation current-section state updates on scroll", () => {
-  const h = makeHarness();
-  h.run();
-  assert.equal(h.home.getAttribute("aria-current"), "location");
-  h.win.scrollY = 800;
-  h.win.emit("scroll");
-  h.flush();
-  assert.equal(h.about.getAttribute("aria-current"), "location");
-  assert.equal(h.home.hasAttribute("aria-current"), false);
-});
+// The active-section navigation test moved to Alpha 3's dedicated suite.
 
 test("prefers-reduced-motion disables scroll reveals without hiding content", () => {
   const h = makeHarness(true);
