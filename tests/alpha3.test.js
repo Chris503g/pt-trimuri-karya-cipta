@@ -111,8 +111,9 @@ function harness() {
   const viewport = node();
   viewport.map = { ".tkc-service-track": track };
   viewport.list = { ".tkc-service-card": slides };
-  const controls = [-1, 1].map(direction =>
-    node({ dataset: { carouselDirection: String(direction) } }));
+  const pauseIcon = node({ text: "Ⅱ" });
+  const pauseButton = node({ attrs: { "aria-pressed": "false" } });
+  pauseButton.map = { "[aria-hidden]": pauseIcon };
 
   const overlay = node({ hidden: true });
   const dialog = node();
@@ -134,6 +135,7 @@ function harness() {
     querySelector(selector) {
       if (selector === "#tkc-primary-nav") return nav;
       if (selector === "#tkc-services-carousel") return viewport;
+      if (selector === ".tkc-service-carousel-pause") return pauseButton;
       if (selector === "#tkc-project-modal") return overlay;
       if (selector === "#tkc-project-modal-title") return title;
       if (selector === "#tkc-project-modal-client") return client;
@@ -144,7 +146,6 @@ function harness() {
       if (selector.includes(".tkc-links .tkc-link")) return desktop;
       if (selector.includes(".tkc-mobile-menu-link")) return mobile;
       if (selector === "main > section[id]") return sections;
-      if (selector === ".tkc-service-carousel-arrow") return controls;
       return [];
     },
     addEventListener(name, callback) { (documentEvents[name] ??= []).push(callback); },
@@ -185,7 +186,7 @@ function harness() {
     for (const callback of current) callback(now);
   };
 
-  return { frame, nav, desktop, mobile, sections, viewport, track, controls,
+  return { frame, nav, desktop, mobile, sections, viewport, track, pauseButton, pauseIcon,
     slides, overlay, dialog, close, title, client, image, card, body,
     doc, window: windowRef, watchers, setNow(value) { now = value; },
     fireDoc: (name, target, extra) => doc.emit(name, target, extra) };
@@ -201,11 +202,12 @@ test("Alpha 3: separate motion layer, sticky navbar, hover feedback and floating
   assert.match(css, /prefers-reduced-motion: reduce/);
 });
 
-test("Alpha 3: service strip has four originals and two manual controls", () => {
+test("Alpha 3: service strip retains four cards without previous/next buttons", () => {
   const section = html.split('<section id="capabilities" class="tkc-service-strip">')[1]
     .split('<section id="about"')[0];
   assert.equal((section.match(/class="tkc-service-card"/g) || []).length, 4);
-  assert.equal((section.match(/class="tkc-service-carousel-arrow"/g) || []).length, 2);
+  assert.doesNotMatch(section, /tkc-service-carousel-arrow|tkc-service-carousel-controls/);
+  assert.equal((section.match(/class="tkc-service-carousel-pause"/g) || []).length, 1);
   assert.match(section, /aria-roledescription="carousel"/);
 });
 
@@ -234,23 +236,21 @@ test("Alpha 3: sticky navigation reacts to current section and scroll position",
   assert.equal(h.desktop[4].getAttribute("aria-current"), "location");
 });
 
-test("Alpha 3: carousel clones for circular scrolling, arrows and keyboard", () => {
+test("Alpha 3: carousel loops, supports keyboard and resets its scroll seamlessly", () => {
   const h = harness();
   assert.equal(h.track.items.length, 12);
   assert.equal(h.track.items.filter(el => el.getAttribute("aria-hidden") === "true").length, 8);
   assert.equal(h.viewport.scrollLeft, 1200);
-  h.controls[1].emit("click");
-  assert.equal(h.viewport.scrollLeft, 1500);
-  h.controls[0].emit("click");
-  assert.equal(h.viewport.scrollLeft, 1200);
   h.viewport.emit("keydown", { key: "ArrowRight" });
   assert.equal(h.viewport.scrollLeft, 1500);
+  h.viewport.emit("keydown", { key: "ArrowLeft" });
+  assert.equal(h.viewport.scrollLeft, 1200);
   h.viewport.scrollLeft = 1950;
   h.viewport.emit("scroll");
   assert.equal(h.viewport.scrollLeft, 750);
 });
 
-test("Alpha 3: carousel automatically advances only when appropriate", () => {
+test("Alpha 3: carousel moves on page load and does not freeze when hovered", () => {
   const h = harness();
   h.setNow(9000); h.frame();
   const initial = h.viewport.scrollLeft;
@@ -259,7 +259,28 @@ test("Alpha 3: carousel automatically advances only when appropriate", () => {
   h.viewport.emit("mouseenter");
   const hoverValue = h.viewport.scrollLeft;
   h.frame();
-  assert.equal(h.viewport.scrollLeft, hoverValue);
+  assert.ok(h.viewport.scrollLeft > hoverValue);
+});
+test("Alpha 3: visitors can pause and resume automatic scrolling", () => {
+  const h = harness();
+  h.setNow(9000); h.frame();
+  h.frame();
+  h.pauseButton.emit("click");
+  assert.equal(h.pauseButton.getAttribute("aria-pressed"), "true");
+  assert.equal(h.pauseIcon.textContent, "▶");
+  const paused = h.viewport.scrollLeft;
+  h.frame();
+  assert.equal(h.viewport.scrollLeft, paused);
+  h.pauseButton.emit("click");
+  assert.equal(h.pauseButton.getAttribute("aria-pressed"), "false");
+  h.frame();
+  assert.ok(h.viewport.scrollLeft > paused);
+});
+test("Alpha 3: desktop navbar follows the physical Projects then Brands section order", () => {
+  const nav = html.split('<div class="tkc-links">')[1].split("</div>")[0];
+  assert.ok(nav.indexOf('href="#capabilities"') < nav.indexOf('href="#projects"'));
+  assert.ok(nav.indexOf('href="#projects"') < nav.indexOf('href="#brands"'));
+  assert.ok(nav.indexOf('href="#brands"') < nav.indexOf('href="#contact"'));
 });
 
 test("Alpha 3: projects open the modal, populate verified fields and restore focus", () => {
