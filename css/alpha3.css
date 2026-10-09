@@ -352,3 +352,55 @@ body.tkc-dialog-open .tkc-contact-fab { visibility: hidden; }
   }
   .tkc-contact-fab:hover { transform: none; }
 }
+
+/* Acceptance corrections: uninterrupted carousel without previous/next arrows.
+   Autoplay resumes automatically after direct manual interaction; hover alone
+   does not stop it. Pausing explicitly remains possible for accessibility. */
+.tkc-service-carousel {
+  position: relative;
+  display: block;
+  width: 100%;
+  grid-template-columns: none;
+  padding: 0;
+}
+.tkc-service-carousel-viewport {
+  width: 100%;
+  touch-action: auto;
+}
+.tkc-service-carousel-pause {
+  position: absolute;
+  z-index: 5;
+  right: 12px;
+  top: 8px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(219,237,244,.35);
+  border-radius: 4px;
+  color: #fff;
+  background: rgba(7,35,51,.88);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.tkc-service-carousel-pause:hover {
+  background-color: #19465d;
+  border-color: #f5b817;
+}
+.tkc-service-carousel-pause:focus-visible {
+  outline: 3px solid #f5b817;
+  outline-offset: 2px;
+}
+@media (max-width: 991px) {
+  .tkc-service-carousel { display: block; grid-template-columns: none; padding: 0; }
+}
+@media (max-width: 479px) {
+  .tkc-service-carousel { display: block; grid-template-columns: none; padding: 0; }
+  .tkc-service-carousel-pause { right: 8px; top: 7px; width: 32px; height: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tkc-service-carousel-pause { display: none; }
+}
