@@ -26,6 +26,40 @@ node --test
 ```
 
 
+### Brand logo upgrade — October 12, 2026
+
+Following approval to display the manufacturers' and customers' trademarks, 17 featured entries now use recognizable **real vector logo artwork** locally stored in `assets/official-logos/` (13 General Trading, 4 Engineering Customers). The existing responsive cards, visible text names, tabs, and all PDF placeholders are preserved.
+
+**Asset provenance:** These logo outlines are sourced from an independently archived corporate SVG collection, [detain/svg-logos](https://github.com/detain/svg-logos), which reproduces trademark graphics. The SVG files are not claimed to be direct downloads from the brands' own servers. Brand identity was checked where practical against manufacturers' published websites (for example NTN, THK, and Siemens). Art is hosted locally on the TKC site; no runtime third-party logo CDN is used. SVG inputs were checked for scripts, embedded images, and remote dependencies before inclusion.
+
+| Category | Brand/customer | Archived vector source |
+| --- | --- | --- |
+| Trading | NTN | `svg/n/ntn.svg` |
+| Trading | THK | `svg/t/thk-2.svg` |
+| Trading | SKF | `svg/s/skf-logo.svg` |
+| Trading | FESTO | `svg/f/festo-logo.svg` |
+| Trading | SMC | `svg/s/smc-1.svg` |
+| Trading | OMRON | `svg/o/omron.svg` |
+| Trading | SIEMENS | `svg/s/siemens.svg` |
+| Trading | YASKAWA | `svg/y/yaskawa-logo.svg` |
+| Trading | SICK | `svg/s/sick-optic-electronic-1.svg` |
+| Trading | HP | `svg/h/hp-2012.svg` |
+| Trading | DELL | `svg/d/dell-technologies-logo.svg` |
+| Trading | CANON | `svg/c/canon-logo.svg` |
+| Trading | 3M | `svg/3/3m-wordmark-2.svg` |
+| Customer | DENSO | `svg/d/denso-201x-logo.svg` |
+| Customer | Panasonic | `svg/p/panasonic.svg` |
+| Customer | Toyota Tsusho | `svg/t/toyota-tsusho-corporation.svg` |
+| Customer | Ajinomoto | `svg/a/ajinomoto-global-logo.svg` |
+
+**Fallbacks intentionally retained (4):** KRISBOW; Astemo; PT Yutaka Manufacturing Indonesia; PT Indolakto. These remain clean initials badges until the exact matching logo version can be verified. They are not presented as genuine logos. The original badges remain in `assets/trading/` and `assets/customers/`, allowing easy rollback/replacement.
+
+All visible company names remain plain text below/beside their images for readability. Logo dimensions scale responsively with `object-fit: contain` so shapes are not stretched. The website does not claim partnership, endorsement, or sponsorship from the appearance of a logo.
+
+Run `node --test`; the portfolio test checks the 17 stored vectors, four fallbacks, and the existing six engineering project/photo mappings. Visual acceptance in a real browser remains recommended after GitHub Pages publication.
+
+---
+
 ### Portfolio naming and imagery update — October 12, 2026
 
 This revision incorporates the latest website acceptance feedback and the project photographs from TKC's company profile.
@@ -43,7 +77,7 @@ This revision incorporates the latest website acceptance feedback and the projec
 
 The six cards retain their original order; their photographs now correspond to their titles. The **Stocker Out** card and modal omit the company name entirely.
 
-**New portfolio imagery:** Fourteen featured General Trading brands and seven featured Engineering Customers now include self-hosted, lightweight SVG lettermark badges from `assets/trading/` and `assets/customers/`. These are **simple placeholder identifiers, not authentic official corporate logos**. They can be replaced by approved company logos later without restructuring the UI. The underlying text names remain readable and accessible, and hidden portfolio entries stay hidden.
+**Portfolio imagery baseline:** All featured General Trading brands and Engineering Customers originally received lightweight SVG lettermark badges; 17 of these have since been upgraded to authentic vector brand marks as documented above. Four ambiguous entries retain their placeholders pending verification. The underlying text names remain readable and accessible, and hidden portfolio entries stay hidden.
 
 Run `node --test` to execute the existing checks and the new `tests/portfolio.test.js` tests. Check the new tiles at desktop/mobile widths and review all project modal images. Changes are prepared independently before promotion to `main`.
 
