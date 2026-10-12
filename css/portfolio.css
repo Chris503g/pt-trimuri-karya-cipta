@@ -1,7 +1,7 @@
-/* TKC Website — portfolio image update
-   Decorative, locally hosted SVG identifiers for featured brands/customers.
-   These are simplified lettermark badges, not official corporate logos.
-   The underlying Webflow-aligned layout, tabs and sections stay unchanged. */
+/* TKC Website — local authentic vector logos and safe placeholder badges
+   Curated vector brand marks for approved display; remaining cards use
+   the existing lettermark fallbacks. Do not recolor or distort logos.
+   The original category tabs and Webflow-aligned layout remain unchanged. */
 
 /* General trading: simple graphic above each existing company name. */
 .tkc-brand-panel-grid .tkc-brand-mini:has(.tkc-brand-tile-image) {
@@ -75,4 +75,69 @@
     flex-basis: 34px;
   }
   .tkc-client-tile-name { font-size: 11px; }
+}
+
+/* Genuine vector artwork sits on the same clean white cards as before.
+   Keep the full proportions of each mark and leave the original caption
+   visible for clarity and accessibility. */
+.tkc-brand-panel-grid .tkc-brand-mini:has(.tkc-brand-logo-image) {
+  min-height: 116px;
+  padding: 14px 10px;
+  gap: 9px;
+}
+.tkc-brand-tile-image.tkc-brand-logo-image {
+  display: block;
+  width: min(100%, 146px);
+  height: 52px;
+  max-width: 100%;
+  flex: 0 0 52px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+}
+.tkc-client-name-list .tkc-client-name:has(.tkc-client-logo-image) {
+  min-height: 72px;
+  gap: 12px;
+}
+.tkc-client-tile-image.tkc-client-logo-image {
+  display: block;
+  width: min(42%, 104px);
+  height: 45px;
+  max-width: 104px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+}
+@media (max-width: 767px) {
+  .tkc-brand-panel-grid .tkc-brand-mini:has(.tkc-brand-logo-image) {
+    min-height: 110px;
+  }
+  .tkc-brand-tile-image.tkc-brand-logo-image {
+    width: min(100%, 134px);
+    height: 46px;
+    flex-basis: 46px;
+  }
+  .tkc-client-tile-image.tkc-client-logo-image {
+    width: min(42%, 88px);
+    height: 40px;
+  }
+}
+@media (max-width: 479px) {
+  .tkc-brand-panel-grid .tkc-brand-mini:has(.tkc-brand-logo-image) {
+    min-height: 100px;
+  }
+  .tkc-brand-tile-image.tkc-brand-logo-image {
+    width: min(100%, 120px);
+    height: 42px;
+    flex-basis: 42px;
+  }
+  .tkc-client-name-list .tkc-client-name:has(.tkc-client-logo-image) {
+    min-height: 64px;
+    gap: 9px;
+  }
+  .tkc-client-tile-image.tkc-client-logo-image {
+    width: min(38%, 78px);
+    height: 34px;
+  }
 }
