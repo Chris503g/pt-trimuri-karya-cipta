@@ -61,9 +61,11 @@ test("Alpha 1 acceptance: hero and About headings are readable",()=>{
  assert.match(html,/INDUSTRIAL SUPPORT<\/strong>/);
  assert.match(css,/\.tkc-note-title\s*\{[^}]*overflow-wrap:break-word/);
 });
-test("Alpha 1 acceptance: omit PT AHM only from customer list",()=>{
+test("Portfolio acceptance: Stocker Out appears without PT AHM company label",()=>{
  const customers=html.split('id="customers"')[1].split('id="csr"')[0];
+ const card=html.match(/<article class="tkc-project-card"[^>]*aria-label="View Stocker Out project details"[^>]*>[\\s\\S]*?<\\/article>/)?.[0];
+ assert.ok(card, "Stocker Out card exists");
  assert.doesNotMatch(customers,/PT Astra Honda Motor/);
- assert.match(html,/>PT AHM<\/span>/);  // Stocker Out project is preserved.
- assert.match(html,/Stocker Out engineering project for PT Astra Honda Motor/);
+ assert.doesNotMatch(card,/PT AHM|PT Astra Honda Motor|tkc-project-client/);
+ assert.match(card,/>Stocker Out<\\/h3>/);
 });
