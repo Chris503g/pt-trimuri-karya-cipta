@@ -26,7 +26,30 @@ node --test
 ```
 
 
-### Alpha 3 acceptance corrections — October 9, 2026
+### Portfolio naming and imagery update — October 12, 2026
+
+This revision incorporates the latest website acceptance feedback and the project photographs from TKC's company profile.
+
+**Correct image-to-project associations:**
+
+| Website project | Photo asset | Customer shown |
+| --- | --- | --- |
+| TIG Body Machine | `project-1.png` | PT YUTAKA |
+| Broaching Machine | `project-5.png` | PT IPM |
+| Auto Transfer Hole Punching Machine | `project-3.png` | PT DENSO |
+| Cabin Robot | `project-4.png` | PT YUTAKA |
+| Free Length Check Machine | `project-6.png` | PT ASTEMO |
+| Stocker Out | `project-2.png` | *Not displayed, per request* |
+
+The six cards retain their original order; their photographs now correspond to their titles. The **Stocker Out** card and modal omit the company name entirely.
+
+**New portfolio imagery:** Fourteen featured General Trading brands and seven featured Engineering Customers now include self-hosted, lightweight SVG lettermark badges from `assets/trading/` and `assets/customers/`. These are **simple placeholder identifiers, not authentic official corporate logos**. They can be replaced by approved company logos later without restructuring the UI. The underlying text names remain readable and accessible, and hidden portfolio entries stay hidden.
+
+Run `node --test` to execute the existing checks and the new `tests/portfolio.test.js` tests. Check the new tiles at desktop/mobile widths and review all project modal images. Changes are prepared independently before promotion to `main`.
+
+---
+
+## Alpha 3 acceptance corrections — October 9, 2026
 
 - Corrected desktop menu ordering (Projects before Brands) to match the existing page structure; no website sections were moved.
 - Removed the left/right service carousel buttons and their dedicated 82px controls column.
@@ -62,7 +85,7 @@ This release addresses the October 9 acceptance feedback while maintaining the o
 
 ### Automated tests
 
-Run `node --test` from the project folder. It executes the unchanged Alpha 1 tests, the maintained Alpha 2 motion tests, and the new Alpha 3 tests.
+Run `node --test` from the project folder. It executes the unchanged Alpha 1 tests, the maintained Alpha 2 motion tests, the Alpha 3 tests and the portfolio imagery checks.
 
 **Deployment:** Not deployed. Use the local Node.js preview (`node server.js`) until acceptance is confirmed.
 
@@ -109,7 +132,7 @@ This branch includes fixes from the first Windows browser screenshots:
 - Removed the 45% + 55% plus-gap desktop About grid overflow by switching to shrinkable proportional tracks.
 - Allowed the hero's right-side supporting note to wrap instead of being clipped.
 - Corrected missing spaces in the heading copy and allowed INDUSTRIAL SUPPORT to wrap inside its panel.
-- Removed PT Astra Honda Motor from the Engineering Customers showcase (and hid that entry in Webflow); retained the PT AHM Stocker Out engineering project.
+- Removed PT Astra Honda Motor from the Engineering Customers showcase (and hid that entry in Webflow); retained the Stocker Out engineering project (the company name is no longer displayed).
 - Preserved the same visual identity, palette, typography and content hierarchy.
 
 If you tested the first ZIP, download the ZIP again and extract into a **new folder** to avoid mixing old/new files.
