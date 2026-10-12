@@ -45,12 +45,12 @@ test("Stocker Out modal hides customer row and uses the chosen photo", () => {
 
 test("All featured trading brands have locally stored image badges", () => {
   const section = html.split('<section id="brands"')[1].split('<section id="customers"')[0];
-  const images = [...section.matchAll(/<img class="tkc-brand-tile-image" src="([^"]+)" alt=""[^>]*>/g)]
+  const images = [...section.matchAll(/<img class="tkc-brand-tile-image(?: tkc-brand-logo-image)?" src="([^"]+)" alt=""[^>]*>/g)]
     .map(match => match[1]);
   assert.equal(images.length, 14);
   assert.equal(new Set(images).size, 14);
   for (const file of images) {
-    assert.ok(file.startsWith("assets/trading/"));
+    assert.ok(file.startsWith("assets/trading/") || file.startsWith("assets/official-logos/trading-"));
     const target = path.join(root, file);
     assert.ok(fs.existsSync(target), "missing image " + file);
     assert.match(fs.readFileSync(target, "utf8"), /<svg/);
@@ -59,12 +59,12 @@ test("All featured trading brands have locally stored image badges", () => {
 
 test("Featured engineering customers have local visual badges and accurate names", () => {
   const section = html.split('<section id="customers"')[1].split('<section id="csr"')[0];
-  const images = [...section.matchAll(/<img class="tkc-client-tile-image" src="([^"]+)" alt=""[^>]*>/g)]
+  const images = [...section.matchAll(/<img class="tkc-client-tile-image(?: tkc-client-logo-image)?" src="([^"]+)" alt=""[^>]*>/g)]
     .map(match => match[1]);
   assert.equal(images.length, 7);
   assert.equal(new Set(images).size, 7);
   for (const file of images) {
-    assert.ok(file.startsWith("assets/customers/"));
+    assert.ok(file.startsWith("assets/customers/") || file.startsWith("assets/official-logos/customers-"));
     const target = path.join(root, file);
     assert.ok(fs.existsSync(target), "missing customer badge " + file);
     assert.match(fs.readFileSync(target, "utf8"), /<svg/);
@@ -72,6 +72,30 @@ test("Featured engineering customers have local visual badges and accurate names
   assert.match(section, /PT Yutaka Manufacturing Indonesia/);
   assert.match(section, /Toyota Tsusho/);
   assert.match(section, /PT Indolakto/);
+});
+
+
+test("17 featured cards use real vector marks; 4 hard-to-verify brands retain safe fallbacks", () => {
+  const branded = [...html.matchAll(/<img class="tkc-(?:brand|client)-tile-image tkc-(?:brand|client)-logo-image" src="(assets\/official-logos\/[^"]+\.svg)" alt=""/g)]
+    .map(match => match[1]);
+  assert.equal(branded.length, 17);
+  assert.equal(new Set(branded).size, 17);
+  for (const image of branded) {
+    const source = fs.readFileSync(path.join(root, image), "utf8");
+    assert.match(source, /^<svg[\s>]/);
+    assert.match(source, /viewBox="/);
+    assert.doesNotMatch(source, /<script|<image\b|<foreignObject|data:image|onload\s*=|xlink:href|<iframe/i);
+  }
+  const placeholders = [...html.matchAll(/<img class="tkc-(?:brand|client)-tile-image" src="(assets\/(?:trading|customers)\/[^"]+\.svg)" alt=""/g)]
+    .map(match => match[1]);
+  assert.deepEqual(placeholders.sort(), [
+    "assets/customers/astemo.svg",
+    "assets/customers/pt-indolakto.svg",
+    "assets/customers/pt-yutaka-manufacturing.svg",
+    "assets/trading/krisbow.svg"
+  ].sort());
+  assert.match(css, /\.tkc-brand-tile-image\.tkc-brand-logo-image/);
+  assert.match(css, /\.tkc-client-tile-image\.tkc-client-logo-image/);
 });
 
 test("Hidden entries stay hidden, filters unchanged, and image labels remain accessible", () => {
