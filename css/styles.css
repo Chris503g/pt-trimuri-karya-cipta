@@ -490,3 +490,84 @@ img{display:block;max-width:100%}
   .tkc-about-industrial-graphic {max-width:calc(100% - 40px);}
   .tkc-about-industrial-graphic {left:20px;right:20px;padding-left:15px;}
 }
+
+/* ===========================================================
+   Mobile diagram layout — October 12, 2026
+   Preserve horizontal desktop flows; make the Business Model
+   and Capability Path readable without page-wide overflow.
+   =========================================================== */
+@media screen and (max-width:991px) {
+  .tkc-business-bridge,
+  .tkc-cap-band {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .tkc-business-bridge-label,
+  .tkc-cap-band-label {
+    min-width: 0;
+  }
+  .tkc-business-bridge-flow,
+  .tkc-cap-band-flow {
+    min-width: 0;
+    flex: 1 1 520px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+@media screen and (max-width:767px) {
+  .tkc-business-bridge,
+  .tkc-cap-band {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 22px 18px;
+  }
+  .tkc-business-bridge-label,
+  .tkc-cap-band-label {
+    width: 100%;
+    min-width: 0;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .tkc-business-bridge-flow,
+  .tkc-cap-band-flow {
+    display: flex;
+    flex: 0 1 auto;
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 7px;
+  }
+  .tkc-business-node,
+  .tkc-cap-band-step {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 10px;
+    text-align: center;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .tkc-business-node {
+    font-size: 12px;
+  }
+  .tkc-cap-band-step {
+    border: 1px solid #35505e;
+    background: #123448;
+    font-size: 12px;
+    letter-spacing: .04em;
+  }
+  .tkc-business-flow-arrow,
+  .tkc-cap-band-arrow {
+    display: block;
+    align-self: center;
+    transform: rotate(90deg);
+    line-height: 1;
+    margin: 3px 0;
+  }
+}
