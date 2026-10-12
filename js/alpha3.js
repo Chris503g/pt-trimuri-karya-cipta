@@ -237,6 +237,7 @@
   if (overlay && dialog && closeButton) {
     const title = $("#tkc-project-modal-title");
     const client = $("#tkc-project-modal-client");
+    const clientRow = $(".tkc-project-modal-client", overlay);
     const modalImage = $("#tkc-project-modal-image");
     let lastFocused = null;
 
@@ -244,11 +245,14 @@
       const name = $(".tkc-project-name", card);
       const company = $(".tkc-project-client", card);
       const image = $(".tkc-project-image", card);
-      if (!name || !company || !image) return;
+      if (!name || !image) return;
       lastFocused = card; // Return to the originating project tile on close
 
       title.textContent = name.textContent.trim();
-      client.textContent = company.textContent.trim();
+      // Stocker Out has no displayed customer by request. Omit the modal
+      // customer row entirely instead of fabricating or repeating PT AHM.
+      client.textContent = company ? company.textContent.trim() : "";
+      if (clientRow) clientRow.hidden = !company;
       modalImage.src = image.getAttribute("src");
       modalImage.alt = image.getAttribute("alt") || title.textContent;
 
