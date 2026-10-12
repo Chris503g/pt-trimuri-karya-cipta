@@ -118,13 +118,13 @@ function harness() {
   const overlay = node({ hidden: true });
   const dialog = node();
   const close = node();
-  const title = node(), client = node(), image = node();
+  const title = node(), client = node(), clientRow = node(), image = node();
   dialog.list = { 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])': [close] };
-  overlay.map = { '[role="dialog"]': dialog, ".tkc-project-modal-close": close };
+  overlay.map = { '[role="dialog"]': dialog, ".tkc-project-modal-close": close, ".tkc-project-modal-client": clientRow };
   const body = node();
   const heading = node({ text: "TIG Body Machine" });
   const customer = node({ text: "PT YUTAKA" });
-  const projectImage = node({ attrs: { src: "project-2.png", alt: "TIG Body Machine" } });
+  const projectImage = node({ attrs: { src: "project-1.png", alt: "TIG Body Machine" } });
   const card = node();
   card.matchSelectors = [".tkc-project-card[data-project-id]"];
   card.map = { ".tkc-project-name": heading, ".tkc-project-client": customer,
@@ -187,7 +187,7 @@ function harness() {
   };
 
   return { frame, nav, desktop, mobile, sections, viewport, track, pauseButton, pauseIcon,
-    slides, overlay, dialog, close, title, client, image, card, body,
+    slides, overlay, dialog, close, title, client, clientRow, image, card, body,
     doc, window: windowRef, watchers, setNow(value) { now = value; },
     fireDoc: (name, target, extra) => doc.emit(name, target, extra) };
 }
@@ -289,7 +289,7 @@ test("Alpha 3: projects open the modal, populate verified fields and restore foc
   assert.equal(h.overlay.hidden, false);
   assert.equal(h.title.textContent, "TIG Body Machine");
   assert.equal(h.client.textContent, "PT YUTAKA");
-  assert.equal(h.image.src, "project-2.png");
+  assert.equal(h.image.src, "project-1.png");
   assert.equal(h.body.classList.contains("tkc-dialog-open"), true);
   h.fireDoc("keydown", h.close, { key: "Escape" });
   assert.equal(h.overlay.hidden, true);
@@ -297,11 +297,27 @@ test("Alpha 3: projects open the modal, populate verified fields and restore foc
   assert.equal(h.card.focused, true);
 });
 
+test("Portfolio update: Stocker Out modal stays functional without customer field", () => {
+  const h = harness();
+  h.card.map[".tkc-project-client"] = null;
+  h.card.map[".tkc-project-name"].textContent = "Stocker Out";
+  h.card.map[".tkc-project-image"].setAttribute("src", "project-2.png");
+  h.fireDoc("click", h.card);
+  assert.equal(h.overlay.hidden, false);
+  assert.equal(h.title.textContent, "Stocker Out");
+  assert.equal(h.client.textContent, "");
+  assert.equal(h.clientRow.hidden, true);
+  assert.equal(h.image.src, "project-2.png");
+  h.fireDoc("keydown", h.close, { key: "Escape" });
+  assert.equal(h.overlay.hidden, true);
+});
+
 test("Alpha 3: existing content, PDF placeholders and previous Alpha 2 animations remain", () => {
   assert.equal((html.match(/class="tkc-project-card"/g) || []).length, 6);
   assert.equal((html.match(/class="tkc-profile-download-action"/g) || []).length, 2);
   assert.match(originalJS, /IntersectionObserver/);
   assert.doesNotMatch(originalJS, /tkc-service-card, \.tkc-business-card/);
-  assert.match(html, /Stocker Out engineering project for PT Astra Honda Motor/);
+  assert.match(html, /Stocker Out robotic engineering project/);
+  assert.doesNotMatch(html, /<span class="tkc-project-client">PT AHM<\/span>/);
   assert.doesNotMatch(html, /<li class="tkc-client-name">PT Astra Honda Motor<\/li>/);
 });
