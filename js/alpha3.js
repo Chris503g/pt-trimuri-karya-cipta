@@ -157,7 +157,8 @@
         event.preventDefault();
         scrollOne(event.key === "ArrowRight" ? 1 : -1);
       });
-      viewport.addEventListener("focusin", () => pauseForInteraction(2500));
+      // Focusing the carousel alone must not interrupt desktop autoplay.
+      // Keyboard navigation already pauses through scrollOne().
       viewport.addEventListener("wheel", event => {
         // Normal vertical page scrolling should not stop the carousel.
         if (Math.abs(event.deltaX || 0) > Math.abs(event.deltaY || 0)) {
@@ -184,9 +185,12 @@
       });
 
       const finishDrag = () => {
+        // Ignore pointerup/cancel events unless a carousel drag actually began.
+        // Otherwise ordinary desktop clicks can repeatedly stall autoplay.
+        if (!dragging) return;
         dragging = false;
         viewport.classList.remove("tkc-service-is-dragging");
-        pauseForInteraction(3500);
+        pauseForInteraction(1500);
       };
       viewport.addEventListener("pointerup", finishDrag);
       viewport.addEventListener("pointercancel", finishDrag);
@@ -196,13 +200,17 @@
       // It avoids an observer callback leaving autoplay stopped unexpectedly.
       measure();
       let resizeScheduled = false;
+      let lastViewportWidth = viewport.clientWidth;
       window.addEventListener("resize", () => {
         if (resizeScheduled) return;
         resizeScheduled = true;
         window.requestAnimationFrame(() => {
           resizeScheduled = false;
+          // Browser UI / height-only changes must not reset the carousel.
+          const nextWidth = viewport.clientWidth;
+          if (Math.abs(nextWidth - lastViewportWidth) < 1) return;
+          lastViewportWidth = nextWidth;
           measure();
-          pauseForInteraction(700);
         });
       });
 
