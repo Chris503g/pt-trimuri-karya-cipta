@@ -141,3 +141,40 @@
     height: 34px;
   }
 }
+
+/* Engineering customer logo additions — supplied customer reference graphics,
+   bundled into one lightweight 4×3 sprite, with local file hosting. */
+.tkc-client-name-list .tkc-client-name:has(.tkc-client-logo-sprite) {
+  min-height: 72px;
+  gap: 12px;
+}
+.tkc-client-tile-image.tkc-client-logo-sprite {
+  display: block;
+  width: 82px;
+  height: 54px;
+  flex: 0 0 82px;
+  border-radius: 2px;
+  background-color: #fff;
+  background-image: url("../assets/customers/engineering-logo-sprite.webp");
+  background-size: 400% 300%;
+  background-repeat: no-repeat;
+}
+.tkc-sprite-kyb { background-position: 0% 0%; }
+.tkc-sprite-gmi { background-position: 33.3333% 0%; }
+.tkc-sprite-igp { background-position: 66.6667% 0%; }
+.tkc-sprite-akebono { background-position: 100% 0%; }
+.tkc-sprite-ud-trucks { background-position: 0% 50%; }
+.tkc-sprite-cataler { background-position: 33.3333% 50%; }
+.tkc-sprite-autotech { background-position: 66.6667% 50%; }
+.tkc-sprite-hamabo { background-position: 100% 50%; }
+.tkc-sprite-yuasa { background-position: 0% 100%; }
+.tkc-sprite-nihon-denkei { background-position: 33.3333% 100%; }
+.tkc-sprite-sany { background-position: 66.6667% 100%; }
+.tkc-sprite-otsuka { background-position: 100% 100%; }
+@media (max-width: 479px) {
+  .tkc-client-tile-image.tkc-client-logo-sprite {
+    width: 64px;
+    height: 42px;
+    flex-basis: 64px;
+  }
+}
