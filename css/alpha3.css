@@ -409,3 +409,10 @@ body.tkc-dialog-open .tkc-contact-fab { visibility: hidden; }
 .tkc-project-modal-fields[hidden],
 .tkc-project-modal-footnote[hidden],
 .tkc-project-modal-client[hidden] { display: none !important; }
+
+/* TKC portfolio: preserve the full Yamaha tire assembly machine portrait. */
+.tkc-project-media-portrait .tkc-project-image { object-fit: contain; background: #e5e9e9; }
+.tkc-project-modal-media.tkc-project-modal-media-portrait img { object-fit: contain; background: #102b3a; }
+@media (min-width: 992px) {
+  .tkc-projects-grid > .tkc-project-card:last-child:nth-child(3n + 1) { grid-column: 2; }
+}
