@@ -246,6 +246,12 @@
     const title = $("#tkc-project-modal-title");
     const client = $("#tkc-project-modal-client");
     const clientRow = $(".tkc-project-modal-client", overlay);
+    const clientLabel = clientRow ? $("span", clientRow) : null;
+    const modalDescription = $("#tkc-project-modal-description");
+    const modalFields = $(".tkc-project-modal-fields", overlay);
+    const modalFootnote = $(".tkc-project-modal-footnote", overlay);
+    const modalMedia = $(".tkc-project-modal-media", overlay);
+    const defaultDescription = modalDescription ? modalDescription.textContent : "";
     const modalImage = $("#tkc-project-modal-image");
     let lastFocused = null;
 
@@ -259,8 +265,14 @@
       title.textContent = name.textContent.trim();
       // Stocker Out has no displayed customer by request. Omit the modal
       // customer row entirely instead of fabricating or repeating PT AHM.
-      client.textContent = company ? company.textContent.trim() : "";
+      client.textContent = card.dataset.modalClient || (company ? company.textContent.trim() : "");
       if (clientRow) clientRow.hidden = !company;
+      if (clientLabel) clientLabel.textContent = card.dataset.clientLabel || "CLIENT";
+      const hasSummary = Boolean(card.dataset.projectSummary);
+      if (modalDescription) modalDescription.textContent = card.dataset.projectSummary || defaultDescription;
+      if (modalFields) modalFields.hidden = hasSummary;
+      if (modalFootnote) modalFootnote.hidden = hasSummary;
+      if (modalMedia) modalMedia.classList.toggle("tkc-project-modal-media-portrait",card.dataset.projectPortrait === "true");
       modalImage.src = image.getAttribute("src");
       modalImage.alt = image.getAttribute("alt") || title.textContent;
 

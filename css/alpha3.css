@@ -404,3 +404,8 @@ body.tkc-dialog-open .tkc-contact-fab { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .tkc-service-carousel-pause { display: none; }
 }
+
+/* Hide template-only project details when a project has a concise verified summary. */
+.tkc-project-modal-fields[hidden],
+.tkc-project-modal-footnote[hidden],
+.tkc-project-modal-client[hidden] { display: none !important; }
