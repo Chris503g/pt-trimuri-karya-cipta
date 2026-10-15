@@ -1,0 +1,126 @@
+/* TKC Trading Accordion | 2026-10-16
+   Seven Mechanical categories, spacious brand artwork, and portfolio CTA.
+   Scoped to the existing General Trading section to protect other sections. */
+.tkc-brand-panel.tkc-brand-panel-mechanical {
+  grid-template-columns: minmax(218px, 280px) minmax(0, 1fr);
+  align-items: stretch;
+}
+.tkc-brand-panel-mechanical .tkc-brand-panel-meta {
+  justify-content: flex-start;
+  padding: 34px 28px;
+}
+.tkc-trading-accordion {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+}
+.tkc-trading-accordion-heading {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  margin: 0 0 4px;
+}
+.tkc-trading-accordion-heading strong { font-size: 17px; color: #102b3a; letter-spacing: -.01em; }
+.tkc-trading-accordion-heading span { flex: 0 0 auto; font-size: 10px; color: #69808c; font-weight: 800; letter-spacing: .1em; }
+.tkc-trading-category { min-width: 0; border: 1px solid #d5e0e5; background: #fff; }
+.tkc-trading-category[open] { border-color: #b8cbd4; box-shadow: inset 3px 0 0 #f5b817; }
+.tkc-trading-category > summary {
+  display: flex; align-items: center; gap: 13px; min-width: 0;
+  padding: 17px 18px; cursor: pointer; color: #163749; list-style: none;
+}
+.tkc-trading-category > summary::-webkit-details-marker { display: none; }
+.tkc-trading-category > summary::marker { content: ''; }
+.tkc-trading-category > summary:hover { background: #edf3f5; }
+.tkc-trading-category > summary:focus-visible { outline: 3px solid #dca500; outline-offset: -3px; }
+.tkc-trading-category-index { flex: 0 0 23px; font-size: 11px; font-weight: 800; color: #7b929e; }
+.tkc-trading-category-title { flex: 1 1 auto; min-width: 0; font-size: 13px; font-weight: 700; line-height: 1.45; overflow-wrap: anywhere; }
+.tkc-trading-category-toggle {
+  position: relative; width: 22px; height: 22px; flex: 0 0 22px;
+  border: 1px solid #c7d6dd; background: #f4f7f9; border-radius: 3px;
+}
+.tkc-trading-category-toggle::before, .tkc-trading-category-toggle::after {
+  content: ''; position: absolute; top: 10px; left: 6px; height: 2px; width: 10px; background: #315366;
+}
+.tkc-trading-category-toggle::after { transform: rotate(90deg); }
+.tkc-trading-category[open] .tkc-trading-category-toggle { border-color: #e7b225; background: #fff4d6; }
+.tkc-trading-category[open] .tkc-trading-category-toggle::after { display: none; }
+.tkc-trading-category-content { padding: 16px 18px 20px; border-top: 1px solid #e1e9ed; }
+.tkc-trading-category-kicker { margin: 0 0 12px; color: #718691; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
+.tkc-trading-brand-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.tkc-trading-brand-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 460px; }
+.tkc-trading-brand-card {
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  min-width: 0; min-height: 148px; gap: 10px; padding: 14px 10px;
+  border: 1px solid #dbe4e8; background: #fff; text-align: center;
+}
+.tkc-trading-brand-mark { display: block; width: min(100%, 180px); height: auto; aspect-ratio: 21 / 11; object-fit: contain; flex: 0 0 auto; }
+.tkc-trading-brand-sprite { background-image: url('../assets/trading/mechanical-brand-logos.webp'); background-size: 400% 700%; background-repeat: no-repeat; background-color: #fff; }
+.tkc-trading-brand-name { display: block; color: #2c4652; font-size: 11px; font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; }
+.tkc-trading-category-note { margin: 13px 0 0; color: #687f8c; font-size: 11px; line-height: 1.5; }
+.tkc-trading-sprite-r1-c4 { background-position: 100% 0%; }
+.tkc-trading-sprite-r2-c1 { background-position: 0% 16.666667%; }
+.tkc-trading-sprite-r2-c2 { background-position: 33.333333% 16.666667%; }
+.tkc-trading-sprite-r2-c3 { background-position: 66.666667% 16.666667%; }
+.tkc-trading-sprite-r2-c4 { background-position: 100% 16.666667%; }
+.tkc-trading-sprite-r3-c2 { background-position: 33.333333% 33.333333%; }
+.tkc-trading-sprite-r3-c3 { background-position: 66.666667% 33.333333%; }
+.tkc-trading-sprite-r4-c1 { background-position: 0% 50%; }
+.tkc-trading-sprite-r4-c2 { background-position: 33.333333% 50%; }
+.tkc-trading-sprite-r5-c1 { background-position: 0% 66.666667%; }
+.tkc-trading-sprite-r5-c2 { background-position: 33.333333% 66.666667%; }
+.tkc-trading-sprite-r5-c3 { background-position: 66.666667% 66.666667%; }
+.tkc-trading-sprite-r5-c4 { background-position: 100% 66.666667%; }
+.tkc-trading-sprite-r6-c1 { background-position: 0% 83.333333%; }
+.tkc-trading-sprite-r6-c2 { background-position: 33.333333% 83.333333%; }
+.tkc-trading-sprite-r6-c3 { background-position: 66.666667% 83.333333%; }
+.tkc-trading-sprite-r6-c4 { background-position: 100% 83.333333%; }
+.tkc-trading-sprite-r7-c1 { background-position: 0% 100%; }
+.tkc-trading-sprite-r7-c2 { background-position: 33.333333% 100%; }
+.tkc-trading-sprite-r7-c3 { background-position: 66.666667% 100%; }
+.tkc-trading-sprite-r7-c4 { background-position: 100% 100%; }
+.tkc-trading-portfolio-download {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  margin-top: 27px; padding: 25px 28px; border: 1px solid #d9e3e8;
+  border-left: 4px solid #f5b817; background: #f1f5f7;
+}
+.tkc-trading-portfolio-copy { flex: 1 1 480px; min-width: 0; }
+.tkc-trading-portfolio-eyebrow { display: block; margin-bottom: 6px; font-size: 10px; font-weight: 800; color: #637c8a; letter-spacing: .1em; }
+.tkc-trading-portfolio-copy h3 { margin: 0 0 7px; font-size: 20px; line-height: 1.25; color: #163749; }
+.tkc-trading-portfolio-copy p { margin: 0; max-width: 680px; color: #49616d; font-size: 13px; line-height: 1.6; }
+.tkc-trading-portfolio-actions { display: flex; flex: 0 0 auto; flex-direction: column; align-items: stretch; gap: 10px; min-width: 200px; }
+.tkc-trading-download-pending { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 12px 14px; border: 1px solid #bdccd4; background: #e4ebef; color: #54707e; font-size: 12px; font-weight: 700; cursor: not-allowed; }
+.tkc-trading-download-pending small { font-size: 10px; color: #718895; white-space: nowrap; }
+.tkc-trading-request-link { display: block; text-align: center; padding: 9px 12px; color: #134d65; font-size: 12px; font-weight: 800; text-underline-offset: 3px; }
+.tkc-trading-request-link:hover { color: #915b00; }
+.tkc-trading-request-link:focus-visible { outline: 3px solid #dca500; outline-offset: 2px; }
+@media (max-width: 1100px) {
+  .tkc-trading-brand-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+  .tkc-brand-panel.tkc-brand-panel-mechanical { grid-template-columns: minmax(0,1fr); }
+  .tkc-brand-panel-mechanical .tkc-brand-panel-meta { padding: 23px 24px; border-right: 0; border-bottom: 1px solid #d3dbdf; }
+  .tkc-trading-brand-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tkc-trading-portfolio-download { align-items: flex-start; }
+}
+@media (max-width: 767px) {
+  .tkc-trading-accordion { padding: 16px; gap: 8px; }
+  .tkc-trading-brand-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .tkc-trading-brand-card { min-height: 139px; padding: 12px 9px; }
+  .tkc-trading-category > summary { padding: 15px 12px; gap: 10px; }
+  .tkc-trading-category-content { padding: 14px 12px 17px; }
+  .tkc-trading-portfolio-download { flex-direction: column; padding: 22px 20px; }
+  .tkc-trading-portfolio-copy { flex: 0 1 auto; }
+  .tkc-trading-portfolio-actions { width: 100%; min-width: 0; }
+}
+@media (max-width: 479px) {
+  .tkc-trading-accordion { padding: 12px; }
+  .tkc-trading-brand-grid { gap: 8px; }
+  .tkc-trading-brand-card { min-height: 119px; padding: 10px 8px; gap: 5px; }
+  .tkc-trading-category > summary { padding: 14px 10px; gap: 8px; }
+  .tkc-trading-category-title { font-size: 12px; }
+  .tkc-trading-accordion-heading strong { font-size: 15px; }
+  .tkc-trading-portfolio-copy h3 { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tkc-trading-category, .tkc-trading-category * { transition: none !important; }
+}
