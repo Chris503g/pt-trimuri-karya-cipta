@@ -332,6 +332,7 @@ img{display:block;max-width:100%}
 .tkc-brand-panel-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
 .tkc-contact-head{grid-column-gap:16px;grid-row-gap:16px;grid-template-columns:minmax(0,1fr);}
 .tkc-brands-compact-head{grid-column-gap:16px;grid-row-gap:16px;grid-template-columns:minmax(0,1fr);}
+.tkc-eng-customers-head{grid-column-gap:16px;grid-row-gap:16px;grid-template-columns:minmax(0,1fr);}
 .tkc-projects-head{grid-column-gap:16px;grid-row-gap:16px;grid-template-columns:minmax(0,1fr);}
 .tkc-csr-title{font-size:36px;}
 .tkc-cap-head{grid-column-gap:16px;grid-row-gap:16px;grid-template-columns:minmax(0,1fr);}
