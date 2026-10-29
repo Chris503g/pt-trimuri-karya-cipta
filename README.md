@@ -1,4 +1,33 @@
-# TKC Website V1.0 — Coding Alpha 3
+# PT Trimuri Karya Cipta — Website
+
+## Current main branch — 29 October 2026
+
+The site is a static HTML/CSS/JavaScript website with six General Trading divisions, 21 product categories and 166 brand cards. The GitHub main branch is the source for Hostinger deployment.
+
+### Directory map
+
+| Path | Description |
+|---|---|
+| index.html | Website entry |
+| assets/site/ | TKC identity, site cover and CSR artwork |
+| assets/projects/ | Engineering project images |
+| assets/trading-brand-logos/ | Brand images grouped by mechanical, electrical, it, furniture, safety and cooling-tower |
+| assets/official-logos/ | SVG brand and customer images |
+| assets/customers/ | Customer logo artwork |
+| assets/trading/ | Mechanical sprite retained for existing stylesheet compatibility |
+| css/, js/ | Website styles and interactions |
+| tests/, server.js | Development and local preview; not required for production |
+| robots.txt, sitemap.xml | SEO files at the root |
+
+### Hostinger deployment
+
+Download the latest main branch ZIP from GitHub. Extract it and upload the **contents** of the repository folder (not the enclosing folder) to public_html. Keep index.html, css/, js/, assets/, robots.txt and sitemap.xml together at that root. Do not flatten the folders. You may omit tests/, server.js and README.md on Hostinger. Check all six General Trading filters and mobile image rendering after upload.
+
+Note: the hero contains an external Unsplash background, which requires an internet connection.
+
+---
+
+### Historical development notes
 
 **Development baseline:** Accepted Alpha 1 layout and Alpha 2 motion features. Alpha 1 and Alpha 2 are preserved on their respective branches. Alpha 3 lives on `tkc-coding-alpha3` and adds only the requested interaction improvements.
 
@@ -68,12 +97,12 @@ This revision incorporates the latest website acceptance feedback and the projec
 
 | Website project | Photo asset | Customer shown |
 | --- | --- | --- |
-| TIG Body Machine | `project-1.png` | PT YUTAKA |
-| Broaching Machine | `project-5.png` | PT IPM |
-| Auto Transfer Hole Punching Machine | `project-3.png` | PT DENSO |
-| Cabin Robot | `project-4.png` | PT YUTAKA |
-| Free Length Check Machine | `project-6.png` | PT ASTEMO |
-| Stocker Out | `project-2.png` | *Not displayed, per request* |
+| TIG Body Machine | `assets/projects/project-1.png` | PT YUTAKA |
+| Broaching Machine | `assets/projects/project-5.png` | PT IPM |
+| Auto Transfer Hole Punching Machine | `assets/projects/project-3.png` | PT DENSO |
+| Cabin Robot | `assets/projects/project-4.png` | PT YUTAKA |
+| Free Length Check Machine | `assets/projects/project-6.png` | PT ASTEMO |
+| Stocker Out | `assets/projects/project-2.png` | *Not displayed, per request* |
 
 The six cards retain their original order; their photographs now correspond to their titles. The **Stocker Out** card and modal omit the company name entirely.
 
@@ -193,8 +222,8 @@ If you tested the first ZIP, download the ZIP again and extract into a **new fol
 - `js/alpha3.js` — Alpha 3 native JavaScript interactions
 - `tests/alpha3.test.js` — functional regressions for all Alpha 3 components
 - `tests/motion.test.js` — behavioral regression tests for interactions and scroll motion
-- `project-1.png`–`project-6.png` — original TKC project images
-- `tkc-logo-refined.svg` — scalable TKC identity; `tkc-cover.jpg` social media image
+- `assets/projects/project-1.png`–`assets/projects/project-6.png` — original TKC project images
+- `assets/site/tkc-logo-refined.svg` — scalable TKC identity; `assets/site/tkc-cover.jpg` social media image
 - `server.js` — zero-dependency Node.js static preview server
 - `tests/smoke.test.js` — static regression checks
 

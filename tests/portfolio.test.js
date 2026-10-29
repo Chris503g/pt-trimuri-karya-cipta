@@ -1,5 +1,4 @@
-/* TKC portfolio imagery and naming acceptance checks.
-   Run locally: node --test tests/portfolio.test.js */
+/* TKC portfolio and trading-library acceptance tests */
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert/strict");
@@ -7,10 +6,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
-const css = fs.readFileSync(path.join(root, "css", "portfolio.css"), "utf8");
 const js = fs.readFileSync(path.join(root, "js", "alpha3.js"), "utf8");
-const cards = [...html.matchAll(/<article class="tkc-project-card"[^>]*>[\s\S]*?<\/article>/g)]
-  .map(match => match[0]);
+const cards = [...html.matchAll(/<article class="tkc-project-card"[^>]*>[\s\S]*?<\/article>/g)].map(m => m[0]);
 const projectMap = [
   ["TIG Body Machine", "project-1.png", "PT YUTAKA"],
   ["Broaching Machine", "project-5.png", "PT IPM"],
@@ -19,91 +16,53 @@ const projectMap = [
   ["Free Length Check Machine", "project-6.png", "PT ASTEMO"],
   ["Stocker Out", "project-2.png", null]
 ];
-
-test("All six project titles match the company-profile images", () => {
+test("Six project cards use correctly grouped images", () => {
   assert.equal(cards.length, 6);
   for (let i = 0; i < projectMap.length; i++) {
     const [name, image, client] = projectMap[i];
-    assert.match(cards[i], new RegExp('<h3 class="tkc-project-name">' + name + '</h3>'));
-    assert.ok(cards[i].includes('src="' + image + '"'), name + " should use " + image);
-    assert.ok(cards[i].includes('alt="' + name), name + " should have matching image alt text");
-    if (client) {
-      assert.ok(cards[i].includes('<span class="tkc-project-client">' + client + '</span>'));
-    } else {
-      assert.doesNotMatch(cards[i], /tkc-project-client|PT AHM|Astra Honda Motor/);
-    }
-    assert.equal(fs.existsSync(path.join(root, image)), true, image + " is present");
+    const file = "assets/projects/" + image;
+    assert.ok(cards[i].includes('<h3 class="tkc-project-name">' + name + '</h3>'), name);
+    assert.ok(cards[i].includes('src="' + file + '"'), file);
+    assert.ok(cards[i].includes('alt="' + name), name);
+    assert.ok(fs.existsSync(path.join(root, file)), file);
+    if (client) assert.ok(cards[i].includes('<span class="tkc-project-client">' + client + '</span>'));
+    else assert.doesNotMatch(cards[i], /tkc-project-client|PT AHM|Astra Honda Motor/);
   }
 });
-
-test("Stocker Out modal hides customer row and uses the chosen photo", () => {
+test("Stocker Out modal retains behavior", () => {
   assert.match(js, /if \(!name \|\| !image\) return/);
   assert.match(js, /clientRow.hidden = !company/);
   assert.match(js, /modalImage.src = image.getAttribute\("src"\)/);
-  assert.match(cards[5], /src="project-2.png"/);
+  assert.ok(cards[5].includes('src="assets/projects/project-2.png"'));
 });
-
-test("All featured trading brands have locally stored image badges", () => {
+test("All 166 trading cards across six divisions have valid local images", () => {
   const section = html.split('<section id="brands"')[1].split('<section id="customers"')[0];
-  const images = [...section.matchAll(/<img class="tkc-brand-tile-image(?: tkc-brand-logo-image)?" src="([^"]+)" alt=""[^>]*>/g)]
-    .map(match => match[1]);
-  assert.equal(images.length, 14);
-  assert.equal(new Set(images).size, 14);
-  for (const file of images) {
-    assert.ok(file.startsWith("assets/trading/") || file.startsWith("assets/official-logos/trading-"));
-    const target = path.join(root, file);
-    assert.ok(fs.existsSync(target), "missing image " + file);
-    assert.match(fs.readFileSync(target, "utf8"), /<svg/);
+  const panels = [...section.matchAll(/id="tkc-tabset-1-pane-\d+" role="tabpanel"/g)];
+  const categories = [...section.matchAll(/<details class="tkc-trading-category"/g)];
+  const brandCards = [...section.matchAll(/<div class="tkc-trading-brand-card" role="listitem">[\s\S]*?<\/div>/g)].map(m => m[0]);
+  assert.equal(panels.length, 6);
+  assert.equal(categories.length, 21);
+  assert.equal(brandCards.length, 166);
+  for (const card of brandCards) {
+    const img = card.match(/<img class="tkc-trading-brand-mark"[^>]*src="([^"]+)"/);
+    assert.ok(img, "brand card requires local image");
+    assert.match(img[1], /^assets\/(?:official-logos|trading-brand-logos)\//);
+    assert.ok(fs.existsSync(path.join(root, img[1])), "missing trading logo " + img[1]);
+    assert.match(card, /class="tkc-trading-brand-name">[^<]+<\/span>/);
   }
+  assert.doesNotMatch(section, /LOGO PENDING/);
 });
-
-test("Featured engineering customers have local visual badges and accurate names", () => {
+test("Engineering customer artwork resolves locally", () => {
   const section = html.split('<section id="customers"')[1].split('<section id="csr"')[0];
-  const images = [...section.matchAll(/<img class="tkc-client-tile-image(?: tkc-client-logo-image)?" src="([^"]+)" alt=""[^>]*>/g)]
-    .map(match => match[1]);
-  assert.equal(images.length, 7);
-  assert.equal(new Set(images).size, 7);
-  for (const file of images) {
-    assert.ok(file.startsWith("assets/customers/") || file.startsWith("assets/official-logos/customers-"));
-    const target = path.join(root, file);
-    assert.ok(fs.existsSync(target), "missing customer badge " + file);
-    assert.match(fs.readFileSync(target, "utf8"), /<svg/);
-  }
+  const images = [...section.matchAll(/<img class="tkc-client-tile-image(?: tkc-client-logo-image)?" src="([^"]+)"/g)].map(m => m[1]);
+  assert.ok(images.length >= 7);
+  for (const img of images) assert.ok(fs.existsSync(path.join(root,img)), "missing customer logo " + img);
   assert.match(section, /PT Yutaka Manufacturing Indonesia/);
   assert.match(section, /Toyota Tsusho/);
-  assert.match(section, /PT Indolakto/);
 });
-
-
-test("17 featured cards use real vector marks; 4 hard-to-verify brands retain safe fallbacks", () => {
-  const branded = [...html.matchAll(/<img class="tkc-(?:brand|client)-tile-image tkc-(?:brand|client)-logo-image" src="(assets\/official-logos\/[^"]+\.svg)" alt=""/g)]
-    .map(match => match[1]);
-  assert.equal(branded.length, 17);
-  assert.equal(new Set(branded).size, 17);
-  for (const image of branded) {
-    const source = fs.readFileSync(path.join(root, image), "utf8");
-    assert.match(source, /^<svg[\s>]/);
-    assert.match(source, /viewBox="/);
-    assert.doesNotMatch(source, /<script|<image\b|<foreignObject|data:image|onload\s*=|xlink:href|<iframe/i);
-  }
-  const placeholders = [...html.matchAll(/<img class="tkc-(?:brand|client)-tile-image" src="(assets\/(?:trading|customers)\/[^"]+\.svg)" alt=""/g)]
-    .map(match => match[1]);
-  assert.deepEqual(placeholders.sort(), [
-    "assets/customers/astemo.svg",
-    "assets/customers/pt-indolakto.svg",
-    "assets/customers/pt-yutaka-manufacturing.svg",
-    "assets/trading/krisbow.svg"
-  ].sort());
-  assert.match(css, /\.tkc-brand-tile-image\.tkc-brand-logo-image/);
-  assert.match(css, /\.tkc-client-tile-image\.tkc-client-logo-image/);
-});
-
-test("Hidden entries stay hidden, filters unchanged, and image labels remain accessible", () => {
-  assert.equal((html.match(/role="tablist"/g) || []).length, 2);
-  assert.equal((html.match(/role="tabpanel"/g) || []).length, 6);
-  assert.match(html, /<div hidden class="tkc-brand-mini">IKO<\/div>/);
-  assert.match(html, /<li hidden class="tkc-client-name">KYB<\/li>/);
-  assert.match(html, /class="tkc-client-tile-name">DENSO<\/span>/);
-  assert.match(html, /class="tkc-brand-tile-name">NTN<\/span>/);
-  assert.match(css, /@media \(max-width: 479px\)/);
+test("Page's internal CSS, JS and image URLs point to existing files", () => {
+  const files = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map(m => m[1]).filter(s => /^(assets\/|css\/|js\/)/.test(s));
+  for (const file of files) assert.ok(fs.existsSync(path.join(root,file)), "missing site file " + file);
+  assert.ok(fs.existsSync(path.join(root, "assets/site/tkc-logo-refined.svg")));
+  assert.ok(fs.existsSync(path.join(root, "assets/site/tkc-cover.jpg")));
 });

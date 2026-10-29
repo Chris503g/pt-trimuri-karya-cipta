@@ -28,7 +28,7 @@ img{display:block;max-width:100%}
 .tkc-business-node-primary{border-top-color:#0a2433;border-right-color:#0a2433;border-bottom-color:#0a2433;border-left-color:#0a2433;background-color:#0a2433;color:#ffffff;}
 .tkc-profile-download-status{display:block;font-size:10px;font-weight:500;}
 .tkc-project-type{margin-top:auto;padding-top:13px;border-top-style:solid;border-top-width:1px;border-top-color:#e1e6e8;color:#718087;font-size:10px;font-weight:700;}
-.tkc-svg-logo-footer{display:block;width:54px;height:54px;flex-shrink:0;border-top-left-radius:11px;border-top-right-radius:11px;border-bottom-left-radius:11px;border-bottom-right-radius:11px;background-color:#171516;background-image:url(../tkc-logo-refined.svg);background-size:contain;background-repeat:no-repeat;}
+.tkc-svg-logo-footer{display:block;width:54px;height:54px;flex-shrink:0;border-top-left-radius:11px;border-top-right-radius:11px;border-bottom-left-radius:11px;border-bottom-right-radius:11px;background-color:#171516;background-image:url(../assets/site/tkc-logo-refined.svg);background-size:contain;background-repeat:no-repeat;}
 .tkc-footer-established{display:flex;flex-direction:column;grid-column-gap:5px;grid-row-gap:5px;}
 .tkc-client-filter-tab{padding-top:10px;padding-right:18px;padding-bottom:10px;padding-left:18px;border-top-style:solid;border-top-width:1px;border-top-color:#55707e;border-right-style:solid;border-right-width:1px;border-right-color:#55707e;border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#55707e;border-left-style:solid;border-left-width:1px;border-left-color:#55707e;border-top-left-radius:100px;border-top-right-radius:100px;border-bottom-left-radius:100px;border-bottom-right-radius:100px;background-color:#e0e9ee;color:#183645;font-size:12px;line-height:1.4;font-weight:700;cursor:pointer;border-color:#e0e9ee;}
 .tkc-nav{position:relative;z-index:20;height:76px;border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#e5eaec;background-color:#ffffff;}
@@ -69,7 +69,7 @@ img{display:block;max-width:100%}
 .tkc-business-card-text-light{color:#c8d2d7;}
 .tkc-mobile-menu-label{color:#143345;font-size:12px;font-weight:800;letter-spacing:.04em;}
 .tkc-projects-foot-text{color:#718087;font-size:11px;margin-top:0;margin-right:0;margin-bottom:0;margin-left:0;}
-.tkc-csr-visual{position:relative;min-height:460px;border-top-style:solid;border-top-width:1px;border-top-color:#d3dbdf;border-right-style:solid;border-right-width:1px;border-right-color:#d3dbdf;border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#d3dbdf;border-left-style:solid;border-left-width:1px;border-left-color:#d3dbdf;background-image:linear-gradient(180deg,rgba(10,36,51,.05),rgba(10,36,51,.18)), url(../tkc-csr.jpg);background-size:cover;}
+.tkc-csr-visual{position:relative;min-height:460px;border-top-style:solid;border-top-width:1px;border-top-color:#d3dbdf;border-right-style:solid;border-right-width:1px;border-right-color:#d3dbdf;border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#d3dbdf;border-left-style:solid;border-left-width:1px;border-left-color:#d3dbdf;background-image:linear-gradient(180deg,rgba(10,36,51,.05),rgba(10,36,51,.18)), url(../assets/site/tkc-csr.jpg);background-size:cover;}
 .tkc-about-visual{position:relative;min-height:430px;padding-top:34px;padding-right:34px;padding-bottom:34px;padding-left:34px;background-color:#0a2231;color:#ffffff;overflow-x:hidden;overflow-y:hidden;}
 .tkc-mark{position:relative;display:block;width:42px;height:42px;border-top-left-radius:50%;border-top-right-radius:50%;border-bottom-left-radius:50%;border-bottom-right-radius:50%;}
 .tkc-cap-band-step{color:#e5ecef;font-size:10px;font-weight:800;letter-spacing:.07em;}
@@ -215,7 +215,7 @@ img{display:block;max-width:100%}
 .tkc-contact-person-dark{border-top-color:#35505e;border-bottom-color:#35505e;}
 .tkc-business-foot-value{color:#182c36;font-size:12px;font-weight:800;letter-spacing:.06em;}
 .tkc-client-group-kind{display:block;margin-bottom:8px;color:#587282;font-size:10px;line-height:1.3;font-weight:700;letter-spacing:.14em;}
-.tkc-svg-logo{display:block;width:44px;height:44px;flex-shrink:0;border-top-left-radius:9px;border-top-right-radius:9px;border-bottom-left-radius:9px;border-bottom-right-radius:9px;background-color:#171516;background-image:url(../tkc-logo-refined.svg);background-size:contain;background-repeat:no-repeat;}
+.tkc-svg-logo{display:block;width:44px;height:44px;flex-shrink:0;border-top-left-radius:9px;border-top-right-radius:9px;border-bottom-left-radius:9px;border-bottom-right-radius:9px;background-color:#171516;background-image:url(../assets/site/tkc-logo-refined.svg);background-size:contain;background-repeat:no-repeat;}
 .tkc-footer{padding-top:74px;border-top-style:solid;border-top-width:4px;border-top-color:#f5b817;background-color:#071b27;color:#ffffff;padding-right:0;padding-bottom:0;padding-left:0;}
 .tkc-footer-bottom{display:flex;min-height:68px;justify-content:space-between;align-items:center;grid-column-gap:24px;grid-row-gap:24px;border-top-style:solid;border-top-width:1px;border-top-color:#29414e;}
 .tkc-beta{background-color:#ffffff;font-family:Arial;color:#10212b;}

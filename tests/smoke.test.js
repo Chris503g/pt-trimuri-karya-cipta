@@ -15,17 +15,17 @@ test("key Webflow sections exist",()=>{
  for(const section of ["about","business","capabilities-detail","projects","brands","customers","csr","contact"])assert.match(html,new RegExp('id="'+section+'"'));
 });
 test("all six engineering images are available",()=>{
- for(let i=1;i<=6;i++){assert.match(html,new RegExp('src="project-'+i+'\\.png"'));assert.ok(fs.existsSync(path.join(root,'project-'+i+'.png')));}
+ for(let i=1;i<=6;i++){assert.match(html,new RegExp('src="assets/projects/project-'+i+'\\.png"'));assert.ok(fs.existsSync(path.join(root,'assets/projects/project-'+i+'.png')));}
 });
 test("TKC logos and metadata are available",()=>{
- assert.ok(fs.existsSync(path.join(root,"tkc-logo-refined.svg")));
- assert.ok(fs.existsSync(path.join(root,"tkc-cover.jpg")));
+ assert.ok(fs.existsSync(path.join(root,"assets/site/tkc-logo-refined.svg")));
+ assert.ok(fs.existsSync(path.join(root,"assets/site/tkc-cover.jpg")));
  assert.match(html,/application\/ld\+json/);assert.match(html,/og:image/);
 });
-test("both native category groups have three tabs",()=>{
+test("trading and customer filters expose nine tabs",()=>{
  assert.equal((html.match(/role="tablist"/g)||[]).length,2);
- assert.equal((html.match(/role="tabpanel"/g)||[]).length,6);
- assert.equal((html.match(/role="tab"/g)||[]).length,6);
+ assert.equal((html.match(/role="tabpanel"/g)||[]).length,9);
+ assert.equal((html.match(/role="tab"/g)||[]).length,9);
  assert.match(js,/ArrowRight/);assert.match(js,/aria-selected/);
 });
 test("mobile navigation and anchor destinations are configured",()=>{
